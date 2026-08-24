@@ -1,5 +1,5 @@
 import './style.css';
-import { renderNavbar } from './components/navbar';
+import { initNavbar, renderNavbar } from './components/navbar';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
@@ -8,7 +8,11 @@ if (!app) {
 }
 
 app.innerHTML = `
-${renderNavbar()}
+${renderNavbar({
+  isLoggedIn: true,
+  credits: 2342,
+  avatar: '../src/assets/Avatar.svg',
+})}
   <main class="min-h-screen bg-gray-900 text-white flex items-center justify-center">
     <div class="text-center">
       <h1 class="text-5xl font-bold text-purple-500">
@@ -27,3 +31,5 @@ ${renderNavbar()}
     </div>
   </main>
 `;
+
+initNavbar();
