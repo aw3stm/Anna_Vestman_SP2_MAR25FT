@@ -29,10 +29,10 @@ export function renderNavbar({
 }: NavbarProps): string {
   return ` 
     <header class="relative bg-white">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-12">
+    <nav class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 md:px-12">
     
-
     <!-- Mobile menu button -->
+    <div class="flex items-center gap-4">
     <button type="button"
     id="menu-btn"
     aria-label="Open menu"
@@ -40,9 +40,12 @@ export function renderNavbar({
     <img src="${hamburgerMenu}" alt="" />
     </button>
 
-    <a href="/"> <img src="${bidoraLogo}" alt="Bidora" class="w-20 md:w-36" /></a>
+    <a href="/"> <img src="${bidoraLogo}" alt="Bidora" class="w-20 md:w-28" /></a>
+    </div>
 
-    <!-- Desktop -->
+
+    <!-- Desktop navbar -->
+
     <div class="hidden items-center gap-12 md:flex">
     <a href="/" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/')}">Listings</a>
     <a href="/create-listing" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/create-listing')}">Create Listing</a>
