@@ -1,5 +1,6 @@
 import './style.css';
 import { initNavbar, renderNavbar } from './components/navbar';
+import { initFooter, renderFooter } from './components/footer';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
@@ -13,9 +14,9 @@ ${renderNavbar({
   credits: 2342,
   avatar: '../src/assets/Avatar.svg',
 })}
-  <main class="min-h-screen  text-text-clr flex items-center justify-center">
+  <main class="flex flex-1 items-center justify-center bg-white text-text">
     <div class="text-center">
-      <h1 class="text-5xl font-bold">
+      <h1 class="text-2xl md:text-5xl font-bold">
         Bid. Discover. Win.
       </h1>
 
@@ -24,12 +25,14 @@ ${renderNavbar({
       </p>
 
       <button
-        class="bidora-button px-24 py-4 hover:bg-hover-btn mt-4 text-base tracking-wide md:text-lg"
+        class="bidora-button px-24 py-4 hover:bg-hover-btn my-6 text-base tracking-wide md:text-lg"
       >
         Search
       </button>
     </div>
   </main>
+  ${renderFooter()};
 `;
 
 initNavbar();
+initFooter();
