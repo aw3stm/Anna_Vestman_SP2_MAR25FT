@@ -14,7 +14,7 @@ ${renderNavbar({
   credits: 2342,
   avatar: '../src/assets/Avatar.svg',
 })}
-  <main class="flex flex-1 items-center justify-center bg-white text-text">
+  <main class="flex min-h-0 flex-1 items-center justify-center bg-white text-text">
     <div class="text-center">
       <h1 class="text-2xl md:text-5xl font-bold">
         Bid. Discover. Win.

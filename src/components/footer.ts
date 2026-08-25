@@ -293,15 +293,12 @@ export function renderFooter(): string {
               Subscribe
             </button>
           </div>
-
         </div>
-      
-
-
+      </div>
       <!-- ==================== COPYRIGHT ==================== -->
-      <div class="bg-primary-green py-6">
+      <div class="shrink-0 bg-primary-green py-6">
         <div class="mx-auto flex max-w-7xl items-center px-10 md:px-12">
-          <p class="text-sm text-white mt-2">
+          <p class="text-sm text-white">
             © 2026 Bidora. All rights reserved.
           </p>
         </div>
