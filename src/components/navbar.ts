@@ -30,16 +30,17 @@ export function renderNavbar({
   return ` 
     <header class="relative bg-white">
     <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-12">
+    
 
     <!-- Mobile menu button -->
     <button type="button"
     id="menu-btn"
     aria-label="Open menu"
-    class="md:hidden">
+    class="md:hidden cursor-pointer">
     <img src="${hamburgerMenu}" alt="" />
     </button>
 
-    <a href="/"> <img src="${bidoraLogo}" alt="Bidora" class="w-24 md:w-36" /></a>
+    <a href="/"> <img src="${bidoraLogo}" alt="Bidora" class="w-20 md:w-36" /></a>
 
     <!-- Desktop -->
     <div class="hidden items-center gap-12 md:flex">
@@ -51,9 +52,9 @@ export function renderNavbar({
 
    ${
      isLoggedIn
-       ? `<div class="flex items-center gap-3">
+       ? `<div class="flex items-center gap-2">
     <img src="${creditIcon}" alt="" />   
-    <span class="text-lg text-gray-600">
+    <span class="md:text-lg text-gray-600">
     ${credits.toLocaleString()} credits</span>
 
     <a href="/profile" aria-label="Profile">
@@ -67,8 +68,8 @@ export function renderNavbar({
      `
    }
 </nav>
-   <!-- Mobile menu -->
 
+   <!-- Mobile menu -->
    <div id="mobile-menu" class="hidden absolute left-0 top-full z-50 w-full bg-white px-6 py-6 shadow-md md:hidden">
    <nav class="flex flex-col gap-6">
    <a href="/" class="text-lg font-semibold text-gray-600 ${getMobLinkClass('/')}">Listings</a>

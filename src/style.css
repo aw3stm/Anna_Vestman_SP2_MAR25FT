@@ -1,1 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Khula:wght@300;400;600;700;800&family=Noto+Sans+Lao:wght@100..900&display=swap');
+
 @import 'tailwindcss';
+
+@theme {
+  --font-primary: 'khula', sans-serif;
+  --font-h1: 'noto sans lao', sans-serif;
+  --color-bg: #ffffff;
+  --color-orange-accent: #e8754f;
+  --color-green-accent: #5f6b5b;
+  --color-styling: #f2ebe2;
+  --color-text: #545454;
+
+  --color-primary-btn: #596456;
+  --color-secondary-btn: #7a7c79;
+  --color-hover-btn: #363e33;
+  --color-disabled-btn: #a6a190;
+  --color-delete-btn: #cb603d;
+  --color-gray-stroke: #545454;
+
+  --font-weight-h1: 900;
+  --radius-card: 16px;
+  --color-border: #545454;
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+h1 {
+  font-family: var(--font-h1);
+  color: var(--color-text);
+  font-weight: var(--font-weight-h1);
+}
+
+@utility bidora-glow-orange {
+  background-color: color-mix(in srgb, var(--color-orange-accent) 12%, transparent);
+  filter: blur(50px);
+  border-radius: 9999px;
+}
+
+@utility bidora-glow-green {
+  background-color: color-mix(in srgb, var(--color-green-accent) 12%, transparent);
+  filter: blur(50px);
+  border-radius: 9999px;
+}
+
+@utility bidora-card {
+  background-color: var(--color-bg);
+  border-radius: var(--radius-card);
+  padding: 16px;
+  box-shadow: 0 3px 9px 1px rgb(0 0 0 / 25%);
+}
+
+@utility bidora-button {
+  background-color: var(--color-primary-btn);
+  font-family: var(--font-h1);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 0 3px 9px 2px rgb(0 0 0 / 25%);
+  transition: opacity 150ms ease;
+  cursor: pointer;
+}
+
+@utility bidora-input {
+  width: 100%;
+  border: 1px solid #bdbdbd;
+  border-radius: 0.375rem;
+  background-color: #fff;
+  padding: 1.4rem;
+  color: var(--color-text);
+  outline: none;
+}
+
+@utility bidora-input-focus {
+  border-color: var(--color-styling);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-styling) 15%, transparent);
+}
+
+@utility bidora-label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+@utility bidora-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  background-color: var(--color-orange-accent);
+  padding: 9.25rem 0.625rem;
+  font-weight: 600;
+  color: #fff;
+}

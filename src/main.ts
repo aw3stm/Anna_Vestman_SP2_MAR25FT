@@ -13,20 +13,20 @@ ${renderNavbar({
   credits: 2342,
   avatar: '../src/assets/Avatar.svg',
 })}
-  <main class="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+  <main class="min-h-screen  text-text-clr flex items-center justify-center">
     <div class="text-center">
-      <h1 class="text-5xl font-bold text-purple-500">
-        BIDORA
+      <h1 class="text-5xl font-bold">
+        Bid. Discover. Win.
       </h1>
 
-      <p class="mt-4 text-xl text-gray-300">
-        Bid. Discover. Win.
+      <p class="mt-4 text-xl">
+        Find something worth bidding on.
       </p>
 
       <button
-        class="mt-8 rounded-lg bg-purple-600 px-6 py-3 font-semibold text-white hover:bg-purple-700"
+        class="bidora-button px-24 py-4 hover:bg-hover-btn mt-4 text-base tracking-wide md:text-lg"
       >
-        Make a bid
+        Search
       </button>
     </div>
   </main>
