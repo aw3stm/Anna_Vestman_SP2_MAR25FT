@@ -1,4 +1,5 @@
 import './style.css';
+
 import { initNavbar, renderNavbar } from './components/navbar';
 import { initFooter, renderFooter } from './components/footer';
 import { renderPage } from './router';
@@ -9,25 +10,25 @@ if (!app) {
   throw new Error('App element not found');
 }
 
-const path = window.location.pathname;
+const path = window.location.pathname.replace(import.meta.env.BASE_URL, '');
 
-if (path === '/login') {
-  // Login page has its own layout
-  app.innerHTML = renderPage();
-} else {
-  // Regular pages
-  app.innerHTML = `
-    ${renderNavbar({
-      isLoggedIn: true,
-      credits: 2342,
-      avatar: '../src/assets/Avatar.svg',
-    })}
+const isAuthPage = path === 'login' || path === 'register';
 
-    ${renderPage()}
+app.innerHTML = `
+  ${isAuthPage
+    ? ''
+    : renderNavbar({
+        isLoggedIn: true,
+        credits: 2342,
+        avatar: './src/assets/Avatar.svg',
+      })}
 
-    ${renderFooter()}
-  `;
+  ${renderPage()}
 
+  ${isAuthPage ? '' : renderFooter()}
+`;
+
+if (!isAuthPage) {
   initNavbar();
   initFooter();
 }
