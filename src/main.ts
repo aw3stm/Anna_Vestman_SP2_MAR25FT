@@ -10,22 +10,28 @@ if (!app) {
   throw new Error('App element not found');
 }
 
-const path = window.location.pathname.replace(import.meta.env.BASE_URL, '');
+const path = window.location.hash.replace('#/', '').split('?')[0];
 
 const isAuthPage = path === 'login' || path === 'register';
 
 app.innerHTML = `
-  ${isAuthPage
-    ? ''
-    : renderNavbar({
-        isLoggedIn: true,
-        credits: 2342,
-        avatar: './src/assets/Avatar.svg',
-      })}
+  <div class="flex min-h-screen flex-col">
 
-  ${renderPage()}
+    ${
+      isAuthPage
+        ? ''
+        : renderNavbar({
+            isLoggedIn: true,
+            credits: 2342,
+            avatar: './src/assets/Avatar.svg',
+          })
+    }
 
-  ${isAuthPage ? '' : renderFooter()}
+    ${renderPage()}
+
+    ${isAuthPage ? '' : renderFooter()}
+
+  </div>
 `;
 
 if (!isAuthPage) {
