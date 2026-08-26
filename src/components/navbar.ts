@@ -48,7 +48,7 @@ export function renderNavbar({
 
     <div class="hidden items-center gap-12 md:flex">
     <a href="/" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/')}">Listings</a>
-    <a href="/create-listing" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/create-listing')}">Create Listing</a>
+    <a href="../login" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/create-listing')}">Create Listing</a>
     <a href="/" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/how-it-works')}">How it works</a>
     ${isLoggedIn ? '' : `<a href="/login" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/login')}">Sign in</a>`} 
     </div>
