@@ -14,9 +14,9 @@ export function renderAuthLayout({ formContent, topLink }: authLayoutProps): str
   return `
   <main class="hidden md:block bg-white">
 
-  <section class="mx-auto flex w-full max-w-7xl">
+ <section class="mx-auto flex max-w-7xl items-stretch">
 
-    <div class="relative h-150 w-1/2 overflow-hidden">
+    <div class="relative min-h-150 w-1/2 overflow-hidden">
       <img
         src="${desktopLoginImg}"
         alt=""
@@ -34,13 +34,13 @@ export function renderAuthLayout({ formContent, topLink }: authLayoutProps): str
       </h1>
     </div>
 
-    <div class="flex h-150 w-1/2 flex-col bg-white">
+    <div class="flex w-1/2 flex-col bg-white">
 
       <div class="flex justify-end px-10 py-8 text-sm">
         ${topLink}
       </div>
 
-      <div class="flex flex-1 items-center justify-center px-10">
+      <div class="flex flex-1 items-center justify-center px-10 py-8">
         ${formContent}
       </div>
 
