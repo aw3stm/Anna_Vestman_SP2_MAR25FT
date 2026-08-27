@@ -40,16 +40,16 @@ export function renderNavbar({
     <img src="${hamburgerMenu}" alt="" />
     </button>
 
-    <a href="/"> <img src="${bidoraLogo}" alt="Bidora" class="w-20 md:w-28" /></a>
+    <a href="#/"> <img src="${bidoraLogo}" alt="Bidora" class="w-20 md:w-28" /></a>
     </div>
 
 
     <!-- Desktop navbar -->
 
     <div class="hidden items-center gap-12 md:flex">
-    <a href="/" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/')}">Listings</a>
-    <a href="../login" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/create-listing')}">Create Listing</a>
-    <a href="/" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/how-it-works')}">How it works</a>
+    <a href="#/" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/')}">Listings</a>
+    <a href="#/login" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/create-listing')}">Create Listing</a>
+    <a href="#/" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/how-it-works')}">How it works</a>
     ${isLoggedIn ? '' : `<a href="/login" class="text-xl font-semibold text-gray-600 ${getDeskLinkClass('/login')}">Sign in</a>`} 
     </div>
 
@@ -60,14 +60,14 @@ export function renderNavbar({
     <span class="md:text-lg text-gray-600">
     ${credits.toLocaleString()} credits</span>
 
-    <a href="/profile" aria-label="Profile">
+    <a href="#/profile" aria-label="Profile">
     <img src="${avatar}" alt="Profile" class="h-10 w-10" /></a>
     <button type="button" id="logout-btn" aria-label="Sign out" class="ml-2">
     <img src="${logoutIcon}" class="h-6 w-6" alt="" /></button>
     </div>
      `
        : `
-    <a href="/login" class="text-lg font-semibold text-gray-600 md:hidden"> Sign in</a>
+    <a href="#/login" class="text-lg font-semibold text-gray-600 md:hidden"> Sign in</a>
      `
    }
 </nav>
@@ -75,14 +75,14 @@ export function renderNavbar({
    <!-- Mobile menu -->
    <div id="mobile-menu" class="hidden absolute left-0 top-full z-50 w-full bg-white px-6 py-6 shadow-md md:hidden">
    <nav class="flex flex-col gap-6">
-   <a href="/" class="text-lg font-semibold text-gray-600 ${getMobLinkClass('/')}">Listings</a>
-   <a href="/create-listing" class="text-lg font-semibold text-gray-600 ${getMobLinkClass('/create-listing')}">Create Listing</a>
-   <a href="/" class="text-lg font-semibold text-gray-600 ${getMobLinkClass('/how-it-works')}">How it works</a>
+   <a href="#/" class="text-lg font-semibold text-gray-600 ${getMobLinkClass('/')}">Listings</a>
+   <a href="#/create-listing" class="text-lg font-semibold text-gray-600 ${getMobLinkClass('/create-listing')}">Create Listing</a>
+   <a href="#/" class="text-lg font-semibold text-gray-600 ${getMobLinkClass('/how-it-works')}">How it works</a>
    ${
      isLoggedIn
        ? ''
        : `
-    <a href="/login" class="text-lg font-semibold text-gray-600">Sign in</a>
+    <a href="#/login" class="text-lg font-semibold text-gray-600">Sign in</a>
     `
    }
    </nav> 
