@@ -12,29 +12,45 @@ interface authLayoutProps {
 
 export function renderAuthLayout({ formContent, topLink }: authLayoutProps): string {
   return `
-    <div class="min-h-screen bg-white">
-    
-    <main class="hidden min-h-screen md:block">
-    
-    <section class="mx-auto flex max-w-7xl">
-    <div class="relative h-150 w-1/2 overflow-hidden">
-    <img src="${desktopLoginImg}" alt="" class="absolute inset-0 h-full w-full object-cover" />
-    <a href="/" class="absolute left-10 top-8 z-10">
-    <img src="${bidoraLogo}" alt="Bidora" class="w-28" /></a>
+  <main class="hidden md:block bg-white">
 
-    <h1 class="absolute left-10 top-20 text-4xl font-bold leading-tight text-text">Bid.
-    <span class="block">Discover.</span>
-    <span class="block text-orange-accent">Win.</span></h1>
+ <section class="mx-auto flex max-w-7xl items-stretch">
+
+    <div class="relative min-h-150 w-1/2 overflow-hidden">
+      <img
+        src="${desktopLoginImg}"
+        alt=""
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+
+      <a href="/" class="absolute left-10 top-8 z-10">
+        <img src="${bidoraLogo}" alt="Bidora" class="w-28" />
+      </a>
+
+      <h1 class="absolute left-10 top-20 text-4xl font-bold leading-tight text-text">
+        Bid.
+        <span class="block">Discover.</span>
+        <span class="block text-orange-accent">Win.</span>
+      </h1>
     </div>
 
-    <div class="flex h-150 w-1/2 flex-col bg-white">
-    <div class="flex justify-end px-10 py-8 text-sm">${topLink}</div>
-    <div class="flex flex-1 items-center justify-center px-10">${formContent}
+    <div class="flex w-1/2 flex-col bg-white">
+
+      <div class="flex justify-end px-10 py-8 text-sm">
+        ${topLink}
+      </div>
+
+      <div class="flex flex-1 items-center justify-center px-10 py-8">
+        ${formContent}
+      </div>
+
     </div>
-    </div>
-    </section>
-    ${renderFooter()}
-    </main>
+
+  </section>
+
+  ${renderFooter()}
+
+</main>
 
 
     <! ===== Mobile ====== >

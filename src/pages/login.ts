@@ -4,7 +4,7 @@ export function renderLogin(): string {
   return renderAuthLayout({
     topLink: `
         <span class="text-base text-text">Don't have an account?
-        <a href="/register" class="text-orange-accent hover:underline">Sign up</a></span>
+        <a href="#/register" class="text-orange-accent hover:underline">Sign up</a></span>
           `,
     formContent: `
           <section class="w-full max-w-md rounded-2xl bg-white p-8 shadow-[0_4px_20px_rgba(0,0,0,0.12)]">
