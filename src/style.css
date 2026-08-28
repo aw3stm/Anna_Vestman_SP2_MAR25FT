@@ -120,3 +120,16 @@ h1 {
   font-weight: 600;
   color: #ffffff;
 }
+
+@utility bidora-badge-mobile {
+  display: flex;
+  height: 2.5rem;
+  width: 4.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--color-orange-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+}
