@@ -4,7 +4,7 @@ import { initNavbar, renderNavbar } from './components/navbar';
 import { initFooter, renderFooter } from './components/footer';
 import { renderPage } from './router';
 
-function renderApp() {
+async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
 
   if (!app) {
@@ -14,6 +14,8 @@ function renderApp() {
   const path = window.location.hash.replace('#/', '').split('?')[0];
 
   const isAuthPage = path === 'login' || path === 'register';
+
+  const page = await renderPage();
 
   app.innerHTML = `
     <div class="flex min-h-screen flex-col">
@@ -28,7 +30,7 @@ function renderApp() {
             })
       }
 
-      ${renderPage()}
+      ${page}
 
       ${isAuthPage ? '' : renderFooter()}
 

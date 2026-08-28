@@ -1,6 +1,9 @@
+import { getListings } from '../api/listings';
 import retroJacket from '../assets/Retro_Jacket.png';
+import { renderProductCard } from '../components/productCard';
 
-export function renderHome(): string {
+export async function renderHome(): Promise<string> {
+  const products = await getListings();
   return `
     <main class="flex-1 bg-white text-text">
     <section class="bg-white">
@@ -117,12 +120,22 @@ export function renderHome(): string {
   </div>
 </section>
 
-
-
 <section class="bg-white">
-<div class="mx-auto max-w-6xl px-6 py-10 md:px-8">
-<h2 class="text-xl font-semibold md:text-2xl">Trending</h2>
-</div>
+  <div class="mx-auto max-w-6xl px-6 py-10 md:px-8">
+
+    <h2 class="text-xl font-semibold md:text-2xl">
+      Trending
+    </h2>
+
+    <div class="mt-6 grid gap-6 md:grid-cols-3">
+     ${products.map(renderProductCard).join('')}
+    </div>
+
+    
+
+  </div>
+
+  
 </section>
     </main>
   `;
