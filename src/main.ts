@@ -3,6 +3,7 @@ import './style.css';
 import { initNavbar, renderNavbar } from './components/navbar';
 import { initFooter, renderFooter } from './components/footer';
 import { renderPage } from './router';
+import { initHomeSearch } from './pages/home';
 
 async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
@@ -40,6 +41,7 @@ async function renderApp() {
   if (!isAuthPage) {
     initNavbar();
     initFooter();
+    initHomeSearch();
   }
 }
 
