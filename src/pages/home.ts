@@ -1,16 +1,21 @@
 import { getListings } from '../api/listings';
 import retroJacket from '../assets/Retro_Jacket.png';
 import { renderProductCard } from '../components/productCard';
+import type { listing } from '../components/productCard';
+
+let products: listing[] = [];
 
 export async function renderHome(): Promise<string> {
-  const products = await getListings();
+  products = await getListings();
   return `
     <main class="flex-1 bg-white text-text">
     <section class="bg-white">
     <div class="mx-auto max-w-6xl px-6 py-8 md:px-8">
     <div class="mx-auto max-w-xl">
     <div class="relative">
+    
     <input type="search"
+    id="search-input"
     placeholder="Search auctions..."
     class="h-12 w-full rounded-full bg-styling px-5 pr-12 text-base outline-none">
       <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-text">
@@ -20,6 +25,7 @@ export async function renderHome(): Promise<string> {
      </div>
 
         <!-- Popular categories -->
+        <section id="categories-section">
           <div class="mt-8">
             <h2 class="text-xl font-medium md:text-2xl">
               Popular categories
@@ -68,7 +74,7 @@ export async function renderHome(): Promise<string> {
     </section>
 
 <! ====== Hero ======= >
-<section class="bg-styling">
+<section id="hero-section" class="bg-styling">
   <div
     class="mx-auto flex max-w-5xl flex-col px-6 py-10 sm:px-8 md:py-14"
   >
@@ -123,20 +129,58 @@ export async function renderHome(): Promise<string> {
 <section class="bg-white">
   <div class="mx-auto max-w-6xl px-6 py-10 md:px-8">
 
-    <h2 class="text-xl font-semibold md:text-2xl">
+    <h2 id="results-title"
+    class="text-xl font-semibold md:text-2xl">
       Trending
     </h2>
 
-    <div class="mt-6 grid gap-6 md:grid-cols-3">
+    <div
+    id="product-grid" 
+    class="mt-6 grid gap-6 md:grid-cols-3">
      ${products.map(renderProductCard).join('')}
     </div>
-
-    
-
-  </div>
-
-  
-</section>
-    </main>
+    </div> 
+    </section>
+  </main>
   `;
+}
+
+export function initHomeSearch(): void {
+  const searchInput = document.querySelector<HTMLInputElement>('#search-input');
+  const productGrid = document.querySelector<HTMLDivElement>('#product-grid');
+  const resultsTitle = document.querySelector<HTMLHeadingElement>('#results-title');
+
+  const categoriesSection = document.querySelector<HTMLElement>('#categories-section');
+  const heroSection = document.querySelector<HTMLElement>('#hero-section');
+
+  if (!searchInput || !productGrid || !resultsTitle) {
+    return;
+  }
+
+  searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const isSearching = searchTerm.length > 0;
+
+    resultsTitle.textContent = isSearching ? 'Search results' : 'Trending';
+    categoriesSection?.classList.toggle('hidden', isSearching);
+    heroSection?.classList.toggle('hidden', isSearching);
+
+    const filteredProducts = products.filter((product) => {
+      const title = product.title?.toLowerCase() ?? '';
+      const description = product.description?.toLowerCase() ?? '';
+      const tags = product.tags?.join(' ').toLowerCase() ?? '';
+
+      return (
+        title.includes(searchTerm) || description.includes(searchTerm) || tags.includes(searchTerm)
+      );
+    });
+
+    if (filteredProducts.length === 0) {
+      productGrid.innerHTML = `
+    <p class="col-span-full py-10 text-center text-lg">No items found.
+    </p>`;
+      return;
+    }
+    productGrid.innerHTML = filteredProducts.map(renderProductCard).join('');
+  });
 }
