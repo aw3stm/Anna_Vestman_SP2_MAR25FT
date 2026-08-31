@@ -17,7 +17,7 @@ export async function renderHome(): Promise<string> {
     <input type="search"
     id="search-input"
     placeholder="Search auctions..."
-    class="h-12 w-full rounded-full bg-styling px-5 pr-12 text-base outline-none">
+    class="h-12 w-full rounded-full bg-styling px-5 pr-12 text-base outline-none placeholder:italic">
       <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-text">
       search
       </span>
@@ -33,36 +33,53 @@ export async function renderHome(): Promise<string> {
 
             <div class="mt-6 grid grid-cols-4 gap-2 border-b border-gray-200 pb-6">
 
-              <button class="flex flex-col items-center gap-2 text-center">
+              <button type="button"
+              class="category-button group flex flex-col items-center gap-2 text-center cursor-pointer "
+              data-category="Fashion">
+              <span class="flex h-16 w-16 items-center justify-center rounded-full group-hover:bg-orange-accent/10 transition-all duration-100">
                 <span class="material-symbols-outlined text-4xl text-orange-accent">
                   checkroom
+                </span>
                 </span>
                 <span class="text-sm md:text-base">
                   Fashion
                 </span>
               </button>
 
-              <button class="flex flex-col items-center gap-2 text-center">
+              <button type="button"
+              class="category-button group flex flex-col items-center gap-2 text-center cursor-pointer"
+              data-category="Electronics">
+              <span class="flex h-16 w-16 items-center justify-center rounded-full group-hover:bg-orange-accent/10 transition-all duration-100">
                 <span class="material-symbols-outlined text-4xl text-orange-accent"> 
                 devices
+                </span>
                 </span>
                 <span class="text-sm md:text-base">
                   Electronics
                 </span>
               </button>
 
-              <button class="flex flex-col items-center gap-2 text-center">
+              <button type="button"
+              class="category-button group flex flex-col items-center gap-2 text-center cursor-pointer"
+              data-category="Home & Living">
+              <span class="flex h-16 w-16 items-center justify-center rounded-full group-hover:bg-orange-accent/10 transition-all duration-100">
                 <span class="material-symbols-outlined text-4xl text-orange-accent">
                   home
+                </span>
                 </span>
                 <span class="text-sm md:text-base">
                   Home & Living
                 </span>
               </button>
 
-              <button class="flex flex-col items-center gap-2 text-center">
+              <button
+              type="button" 
+              class="category-button group flex flex-col items-center gap-2 text-center cursor-pointer"
+              data-category="Collectibles">
+              <span class="flex h-16 w-16 items-center justify-center rounded-full group-hover:bg-orange-accent/10 transition-all duration-100">
                 <span class="material-symbols-outlined text-4xl text-orange-accent">
                   star
+                </span>
                 </span>
                 <span class="text-sm md:text-base">
                   Collectibles
@@ -128,6 +145,15 @@ export async function renderHome(): Promise<string> {
 
 <section class="bg-white">
   <div class="mx-auto max-w-6xl px-6 py-10 md:px-8">
+    <div id="back-home" class="mb-4 hidden">
+    <button type="button"
+    id="back-home-btn"
+    class="flex items-center gap-1 text-sm text-orange-accent">
+    <span class="material-symbols-outlined">
+    arrow_back</span>
+    <p class="hover:underline cursor-pointer text-base">Back</p>
+    </button>
+    </div>
 
     <h2 id="results-title"
     class="text-xl font-semibold md:text-2xl">
@@ -149,38 +175,77 @@ export function initHomeSearch(): void {
   const searchInput = document.querySelector<HTMLInputElement>('#search-input');
   const productGrid = document.querySelector<HTMLDivElement>('#product-grid');
   const resultsTitle = document.querySelector<HTMLHeadingElement>('#results-title');
-
   const categoriesSection = document.querySelector<HTMLElement>('#categories-section');
   const heroSection = document.querySelector<HTMLElement>('#hero-section');
+  const categoryButtons = document.querySelectorAll<HTMLButtonElement>('.category-button');
+  const backHome = document.querySelector<HTMLElement>('#back-home');
+  const backHomeBtn = document.querySelector<HTMLButtonElement>('#back-home-btn');
 
   if (!searchInput || !productGrid || !resultsTitle) {
     return;
   }
 
-  searchInput.addEventListener('input', () => {
+  let selectedCategory = '';
+
+  const categoryMap: Record<string, string[]> = {
+    Fashion: ['fashion', 'clothing', 'apparel', 'luxury', 'shoes'],
+    Electronics: ['electronics', 'music', 'laptop', 'tv'],
+    'Home & Living': ['home', 'living', 'furniture', 'home & living', 'flowers', 'bathroom'],
+    Collectibles: ['collectibles', 'collectible', 'vintage', 'collection', 'designers', 'art'],
+  };
+
+  function updateResults(): void {
     const searchTerm = searchInput.value.trim().toLowerCase();
-    const isSearching = searchTerm.length > 0;
-
-    resultsTitle.textContent = isSearching ? 'Search results' : 'Trending';
-    categoriesSection?.classList.toggle('hidden', isSearching);
-    heroSection?.classList.toggle('hidden', isSearching);
-
     const filteredProducts = products.filter((product) => {
       const title = product.title?.toLowerCase() ?? '';
       const description = product.description?.toLowerCase() ?? '';
       const tags = product.tags?.join(' ').toLowerCase() ?? '';
 
-      return (
-        title.includes(searchTerm) || description.includes(searchTerm) || tags.includes(searchTerm)
-      );
+      const matchesSearch =
+        !searchTerm ||
+        title.includes(searchTerm) ||
+        description.includes(searchTerm) ||
+        tags.includes(searchTerm);
+
+      const categoryTags = categoryMap[selectedCategory] ?? [];
+
+      const matchesCategory =
+        !selectedCategory || product.tags?.some((tag) => categoryTags.includes(tag.toLowerCase()));
+      return matchesSearch && matchesCategory;
     });
 
+    const isFiltering = searchTerm.length > 0 || selectedCategory.length > 0;
+    backHome?.classList.toggle('hidden', !isFiltering);
+    resultsTitle.textContent = isFiltering ? 'Search results' : 'Trending';
+    categoriesSection?.classList.toggle('hidden', isFiltering);
+    heroSection?.classList.toggle('hidden', isFiltering);
+
     if (filteredProducts.length === 0) {
-      productGrid.innerHTML = `
-    <p class="col-span-full py-10 text-center text-lg">No items found.
-    </p>`;
+      productGrid.innerHTML = `<p class="col-span-full py-10 text-center text-lg">No items found.
+    </p>
+    `;
       return;
     }
     productGrid.innerHTML = filteredProducts.map(renderProductCard).join('');
+  }
+
+  searchInput.addEventListener('input', updateResults);
+
+  categoryButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const category = button.dataset.category ?? '';
+
+      if (selectedCategory === category) {
+        selectedCategory = '';
+      } else {
+        selectedCategory = category;
+      }
+      updateResults();
+    });
+  });
+  backHomeBtn?.addEventListener('click', () => {
+    searchInput.value = '';
+    selectedCategory = '';
+    updateResults();
   });
 }
