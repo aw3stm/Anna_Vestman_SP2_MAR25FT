@@ -3,7 +3,8 @@ import './style.css';
 import { initNavbar, renderNavbar } from './components/navbar';
 import { initFooter, renderFooter } from './components/footer';
 import { renderPage } from './router';
-import { initHomeSearch } from './pages/home';
+import { initHomeCards, initHomeSearch } from './pages/home';
+import { initListingDetails } from './pages/listingDetails';
 
 async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
@@ -41,7 +42,15 @@ async function renderApp() {
   if (!isAuthPage) {
     initNavbar();
     initFooter();
-    initHomeSearch();
+
+    if (path === '') {
+      initHomeSearch();
+      initHomeCards();
+    }
+
+    if (path === 'listing') {
+      initListingDetails();
+    }
   }
 }
 

@@ -22,3 +22,12 @@ export async function getListings(): Promise<listing[]> {
   const data: ListingResponse = await response.json();
   return data.data;
 }
+
+export async function getListingById(id: string): Promise<listing> {
+  const response = await fetch(`${API_URL}/auction/listings/${id}?_seller=true&_bids=true`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch listing');
+  }
+  const data: { data: listing } = await response.json();
+  return data.data;
+}

@@ -249,3 +249,23 @@ export function initHomeSearch(): void {
     updateResults();
   });
 }
+
+export function initHomeCards(): void {
+  const productGrid = document.querySelector<HTMLDivElement>('#product-grid');
+  if (!productGrid) {
+    return;
+  }
+
+  productGrid.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const card = target.closest<HTMLElement>('.product-card');
+    if (!card) {
+      return;
+    }
+    const id = card.dataset.id;
+    if (!id) {
+      return;
+    }
+    window.location.hash = `#/listing?id=${id}`;
+  });
+}

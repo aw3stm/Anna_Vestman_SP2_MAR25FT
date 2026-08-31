@@ -4,8 +4,26 @@ export interface listingMedia {
 }
 
 export interface listingBid {
+  id: string;
   amount: number;
+  bidder: {
+    name: string;
+  };
   created: string;
+}
+
+export interface listingSeller {
+  name: string;
+  email: string;
+  bio?: string;
+  avatar?: {
+    url: string;
+    alt?: string;
+  };
+  banner?: {
+    url: string;
+    alt?: string;
+  };
 }
 
 export interface listing {
@@ -17,17 +35,20 @@ export interface listing {
   created: string;
   updated: string;
   endsAt: string;
+
+  seller?: listingSeller;
+
   _count?: {
     bids?: number;
   };
-  _bids?: listingBid[];
+  bids?: listingBid[];
 }
 
 function getCurrentBid(listing: listing): number {
-  if (!listing._bids || listing._bids.length === 0) {
+  if (!listing.bids || listing.bids.length === 0) {
     return 0;
   }
-  return Math.max(...listing._bids.map((bid) => bid.amount));
+  return Math.max(...listing.bids.map((bid) => bid.amount));
 }
 
 function getRemainingTime(endsAt: string): string {
@@ -57,7 +78,8 @@ export function renderProductCard(listing: listing): string {
   const isNew = newListing(listing.created);
 
   return `
-  <article class="bidora-card flex overflow-hidden p-0 md:flex-col">
+  <article class="product-card bidora-card flex overflow-hidden p-0 md:flex-col cursor-pointer"
+  data-id="${listing.id}">
   <div class="relative h-48 w-48 shrink-0 bg-styling md:h-72 md:w-full">
   ${
     isNew
