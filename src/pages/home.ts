@@ -185,6 +185,10 @@ export function initHomeSearch(): void {
     return;
   }
 
+  const input = searchInput;
+  const grid = productGrid;
+  const title = resultsTitle;
+
   let selectedCategory = '';
 
   const categoryMap: Record<string, string[]> = {
@@ -195,7 +199,7 @@ export function initHomeSearch(): void {
   };
 
   function updateResults(): void {
-    const searchTerm = searchInput.value.trim().toLowerCase();
+    const searchTerm = input.value.trim().toLowerCase();
     const filteredProducts = products.filter((product) => {
       const title = product.title?.toLowerCase() ?? '';
       const description = product.description?.toLowerCase() ?? '';
@@ -216,17 +220,17 @@ export function initHomeSearch(): void {
 
     const isFiltering = searchTerm.length > 0 || selectedCategory.length > 0;
     backHome?.classList.toggle('hidden', !isFiltering);
-    resultsTitle.textContent = isFiltering ? 'Search results' : 'Trending';
+    title.textContent = isFiltering ? 'Search results' : 'Trending';
     categoriesSection?.classList.toggle('hidden', isFiltering);
     heroSection?.classList.toggle('hidden', isFiltering);
 
     if (filteredProducts.length === 0) {
-      productGrid.innerHTML = `<p class="col-span-full py-10 text-center text-lg">No items found.
+      grid.innerHTML = `<p class="col-span-full py-10 text-center text-lg">No items found.
     </p>
     `;
       return;
     }
-    productGrid.innerHTML = filteredProducts.map(renderProductCard).join('');
+    grid.innerHTML = filteredProducts.map(renderProductCard).join('');
   }
 
   searchInput.addEventListener('input', updateResults);
