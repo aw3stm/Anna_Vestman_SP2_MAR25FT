@@ -7,7 +7,6 @@ import { initHomeCards, initHomeSearch } from './pages/home';
 import { initListingDetails } from './pages/listingDetails';
 import { initRegister } from './pages/register';
 import { initLogin } from './pages/login';
-import { getCurrentProfile } from './api/auth';
 
 async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
@@ -47,8 +46,6 @@ async function renderApp() {
   `;
 
   if (!isAuthPage) {
-    const profile = await getCurrentProfile();
-  console.log(profile);
     initNavbar();
     initFooter();
 
