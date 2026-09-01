@@ -1,3 +1,4 @@
+import { registerUser } from '../api/auth';
 import { renderAuthLayout } from '../components/authLayout';
 
 export function renderRegister(): string {
@@ -120,5 +121,49 @@ export function renderRegister(): string {
         </form>
       </section>
     `,
+  });
+}
+
+export function initRegister(): void {
+  const form = document.querySelector<HTMLFormElement>('#register-form');
+  const usernameInput = document.querySelector<HTMLInputElement>('#username');
+  const emailInput = document.querySelector<HTMLInputElement>('#email');
+  const passwordInput = document.querySelector<HTMLInputElement>('#password');
+  const confirmPasswordInput = document.querySelector<HTMLInputElement>('#confirm-password');
+  const errorMsg = document.querySelector<HTMLParagraphElement>('#register-error');
+
+  if (
+    !form ||
+    !usernameInput ||
+    !emailInput ||
+    !passwordInput ||
+    !confirmPasswordInput ||
+    !errorMsg
+  ) {
+    return;
+  }
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const username = usernameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    errorMsg.classList.add('hidden');
+
+    if (password !== confirmPassword) {
+      errorMsg.textContent = 'Password do not match.';
+      errorMsg.classList.remove('hidden');
+      return;
+    }
+    try {
+      await registerUser(username, email, password);
+      window.location.hash = '#/login';
+    } catch (error) {
+      errorMsg.textContent =
+        error instanceof Error ? error.message : 'Registration failed. Please try again.';
+      errorMsg.classList.remove('hidden');
+    }
   });
 }
