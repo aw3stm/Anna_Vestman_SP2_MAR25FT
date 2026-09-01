@@ -1,3 +1,4 @@
+import { placeBid } from '../api/listings';
 import type { listing } from '../components/productCard';
 
 function getCurrentBid(product: listing): number {
@@ -189,7 +190,7 @@ export function renderListingDetails(product: listing): string {
     `;
 }
 
-export function initListingDetails(): void {
+export function initListingDetails(productId: string): void {
   const mainImage = document.querySelector<HTMLImageElement>('#main-product-image');
   const thumbnails = document.querySelectorAll<HTMLButtonElement>('.listing-thumbnail');
 
@@ -229,6 +230,18 @@ export function initListingDetails(): void {
       bidMessage.textContent = 'Please enter a valid bid.';
       bidMessage.classList.remove('hidden');
       return;
+    }
+    try {
+      const updateListing = await placeBid(productId, amount);
+      console.log('Bid placed', updateListing);
+
+      bidMessage.textContent = 'Bid placed successfully!';
+      bidMessage.classList.remove('hidden');
+      bidInput.value = '';
+    } catch (error) {
+      console.error(error);
+      bidMessage.textContent = 'Could not place bid. Please try again.';
+      bidMessage.classList.remove('hidden');
     }
   });
   const backBtn = document.querySelector<HTMLButtonElement>('#listing-back');

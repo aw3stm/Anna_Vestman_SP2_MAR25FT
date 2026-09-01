@@ -13,7 +13,11 @@ async function renderApp() {
     throw new Error('App element not found');
   }
 
-  const path = window.location.hash.replace('#/', '').split('?')[0];
+  const hash = window.location.hash.replace('#/', '');
+  const [path, queryString] = hash.split('?');
+
+  const params = new URLSearchParams(queryString);
+  const listingId = params.get('id');
 
   const isAuthPage = path === 'login' || path === 'register';
 
@@ -49,7 +53,7 @@ async function renderApp() {
     }
 
     if (path === 'listing') {
-      initListingDetails();
+      initListingDetails(listingId ?? '');
     }
   }
 }
