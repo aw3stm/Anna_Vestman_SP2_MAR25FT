@@ -1,3 +1,4 @@
+import { createApiKey, getApiKey, loginUser } from '../api/auth';
 import { renderAuthLayout } from '../components/authLayout';
 
 export function renderLogin(): string {
@@ -30,7 +31,7 @@ export function renderLogin(): string {
           <form id="login-form" class="mt-8 space-y-5">
           <div>
           <label for="email" class="bidora-label">Email</label>
-          <input type="email" id="email" name="email" autocomplete="bidora-input" required class="bidora-input" />
+          <input type="email" id="email" name="email" autocomplete="email" required class="bidora-input" />
           </div>
 
           
@@ -47,5 +48,49 @@ export function renderLogin(): string {
           <p id="login-error" class="hidden text-center text-sm text-delete-btn"></p>
           </form>
           </section>`,
+  });
+}
+
+export function initLogin(): void {
+  const form = document.querySelector<HTMLFormElement>('#login-form');
+  const emailInput = document.querySelector<HTMLInputElement>('#email');
+  const passwordInput = document.querySelector<HTMLInputElement>('#password');
+  const errorMessage = document.querySelector<HTMLParagraphElement>('#login-error');
+
+  if (!form || !emailInput || !passwordInput || !errorMessage) {
+    return;
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    errorMessage.classList.add('hidden');
+
+    try {
+      const user = await loginUser(email, password);
+
+      localStorage.setItem('token', user.accessToken);
+
+      localStorage.setItem(
+        'profile',
+        JSON.stringify({
+          name: user.name,
+          email: user.email,
+        }),
+      );
+      if (!getApiKey()) {
+        await createApiKey();
+      }
+
+      window.location.hash = '#/';
+    } catch (error) {
+      errorMessage.textContent =
+        error instanceof Error ? error.message : 'Login failed. Please try again.';
+
+      errorMessage.classList.remove('hidden');
+    }
   });
 }
