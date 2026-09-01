@@ -40,7 +40,7 @@ export function renderLogin(): string {
           <input type="password" id="password" name="password" autocomplete="current-password" required class="bidora-input" />
           </div>
 
-                                            <div class="text-right">
+          <div class="text-right">
           <a href="#" class="text-sm text-orange-accent hover:underline">Forgot password?</a></div>
 
           <button type="submit" class="bidora-button w-full px-6 py-3">Sign in</button>

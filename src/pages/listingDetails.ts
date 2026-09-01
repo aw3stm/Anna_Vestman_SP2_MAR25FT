@@ -1,3 +1,4 @@
+import { getApiKey, getToken } from '../api/auth';
 import { placeBid } from '../api/listings';
 import type { listing } from '../components/productCard';
 
@@ -35,6 +36,7 @@ export function renderListingDetails(product: listing): string {
   const category = product.tags?.[0] ?? 'Other';
   const currentBid = getCurrentBid(product);
   const timeLeft = formatTimeLeft(product.endsAt);
+  const isLoggedIn = !!getToken();
 
   return `
     <main class="flex-1 bg-white text-text">
@@ -43,11 +45,11 @@ export function renderListingDetails(product: listing): string {
     
     <button type="button"
     id="listing-back"
-    class="mb-6 flex cursor-pointer items-center gap-1 text-sm text-orange-accent hover:underline">
+    class="mb-6 flex cursor-pointer items-center gap-1 text-sm text-orange-accent">
     <span class="material-symbols-outlined">
     arrow_back
     </span>
-    <span class="cursor-pointer">Back</span>
+    <span class="cursor-pointer hover:underline">Back</span>
     </button>
     
     <div class="grid gap-10 md:grid-cols-[1.5fr_0.85fr]">
@@ -127,18 +129,19 @@ export function renderListingDetails(product: listing): string {
     <div class="rounded-xl border border-gray-200 px-4 py-3 mb-2">
     <p class="text-sm text-text/60">Ends in</p>
     
-    <p class="mt-1 text-lg font-semibold">${timeLeft}</p>
+    <p class="mt-1 text-lg font-semibold text-orange-accent">${timeLeft}</p>
     </div>
 
-    <div class="rounded-xl border border-gray-200 px-4 py-3">
+    <div id="current-bid" class="rounded-xl border border-gray-200 px-4 py-3">
     <p class="text-sm text-text/60">Current bid</p>
-    <p class="mt-1 text-lg font-semibold">${currentBid} credits
+    <p class="mt-1 text-lg font-semibold text-orange-accent">${currentBid} credits
     </p>
     </div>
     </div>
 
     <div class="mt-6 md:mt-5">
     <h2 class="text-lg font-semibold">Bid history</h2>
+    <div id="bid-history">
     ${
       product.bids?.length
         ? `
@@ -149,7 +152,9 @@ export function renderListingDetails(product: listing): string {
         (bid) => `
         <div class="flex items-center justify-between px-4 py-3">
         <span class="text-sm">${bid.bidder.name}</span>
-        <span class="text-sm font-semibold">${bid.amount} credits</span></div>
+        <span class="text-sm font-semibold">${bid.amount} credits
+        </span>
+        </div>
         `,
       )
       .join('')}
@@ -160,31 +165,71 @@ export function renderListingDetails(product: listing): string {
     }
     </div>
     </div>
+    ${
+      isLoggedIn
+        ? `
+      <div class="mt-8">
+        <h2 class="text-lg font-semibold">Place your bid</h2>
 
-    <div class="mt-8">
-    <h2 class="text-lg font-semibold">Place your bid</h2>
-    <form id="bid-form" class="mt-3">
-    <label for="bid-amount" class="sr-only">Bid amount</label>
+        <form id="bid-form" class="mt-3">
+          <label for="bid-amount" class="sr-only">
+            Bid amount
+          </label>
 
-    <div class="relative">
-    <input type="number"
-    id="bid-amount"
-    name="bidAmount"
-    min="${currentBid + 1}"
-    placeholder="Enter your bid" required
-    class="h-12 w-full rounded-lg border border-gray-300 px-4 pr-20 outline-none focus:border-orange-accent">
-    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text/60">credits
-    </span>
-    </div>
+          <div class="relative">
+            <input
+              type="number"
+              id="bid-amount"
+              name="bidAmount"
+              min="${currentBid + 1}"
+              placeholder="Enter your bid"
+              required
+              class="h-12 w-full rounded-lg border border-gray-300 px-4 pr-20 outline-none focus:border-orange-accent"
+            />
 
-    <button type="submit"
-    id="place-bid-btn"
-    class="bidora-button mt-3 w-full py-3">Place bid</button>
-    <p id="bid-msg"
-    class="mt-3 hidden text-sm"
-    aria-live="polite"></p>
-    </form>
-    </div>
+            <span
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text/60"
+            >
+              credits
+            </span>
+          </div>
+
+          <button
+            type="submit"
+            id="place-bid-btn"
+            class="bidora-button mt-3 w-full py-3"
+          >
+            Place bid
+          </button>
+
+          <p
+            id="bid-msg"
+            class="mt-3 hidden text-sm"
+            aria-live="polite"
+          ></p>
+        </form>
+      </div>
+    `
+        : `
+      <div class="mt-8 flex self-start flex-col rounded-xl bg-styling p-5 items-center text-center">
+        <h2 class="text-lg font-semibold">
+          Want to place a bid?
+        </h2>
+
+        <p class="mt-2 text-sm text-text/70">
+          Sign in to place a bid on this listing.
+        </p>
+
+        <a
+          href="#/login"
+          class="bidora-button mt-4 inline-block px-6 py-3 hover:bg-hover-btn"
+        >
+          Sign in
+        </a>
+      </div>
+    `
+    }
+    
     </section>
     </main>
     `;
@@ -216,11 +261,19 @@ export function initListingDetails(productId: string): void {
   const bidForm = document.querySelector<HTMLFormElement>('#bid-form');
   const bidInput = document.querySelector<HTMLInputElement>('#bid-amount');
   const bidMessage = document.querySelector<HTMLParagraphElement>('#bid-msg');
+  const token = getToken();
+  const apiKey = getApiKey();
 
-  bidForm?.addEventListener('submit', async (event) => {
+  if (!bidForm || !bidInput || !bidMessage) {
+    return;
+  }
+
+  bidForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    if (!bidInput || !bidMessage) {
+    if (!token || !apiKey) {
+      bidMessage.textContent = 'Please sign in to place a bid.';
+      bidMessage.classList.remove('hidden');
       return;
     }
 
@@ -231,21 +284,64 @@ export function initListingDetails(productId: string): void {
       bidMessage.classList.remove('hidden');
       return;
     }
+
     try {
-      const updateListing = await placeBid(productId, amount);
-      console.log('Bid placed', updateListing);
+      const updatedListing = await placeBid(productId, amount);
 
       bidMessage.textContent = 'Bid placed successfully!';
       bidMessage.classList.remove('hidden');
       bidInput.value = '';
+
+      const updatedCurrentBid = getCurrentBid(updatedListing);
+
+      const currentBidElement = document.querySelector<HTMLDivElement>('#current-bid');
+
+      if (currentBidElement) {
+        currentBidElement.innerHTML = `
+      <p class="text-sm text-text/60">Current bid</p>
+      <p class="mt-1 text-lg font-semibold">
+        ${updatedCurrentBid} credits
+      </p>
+    `;
+      }
+
+      const bidHistoryElement = document.querySelector<HTMLDivElement>('#bid-history');
+
+      if (bidHistoryElement) {
+        bidHistoryElement.innerHTML = updatedListing.bids?.length
+          ? `
+        <div class="mt-3 divide-y divide-gray-100 rounded-xl border border-gray-200">
+          ${[...updatedListing.bids]
+            .sort((a, b) => b.amount - a.amount)
+            .map(
+              (bid) => `
+                <div class="flex items-center justify-between px-4 py-3">
+                  <span class="text-sm">${bid.bidder.name}</span>
+                  <span class="text-sm font-semibold">
+                    ${bid.amount} credits
+                  </span>
+                </div>
+              `,
+            )
+            .join('')}
+        </div>
+      `
+          : `
+        <p class="mt-3 text-sm text-text/60">
+          No bids yet.
+        </p>
+      `;
+      }
     } catch (error) {
       console.error(error);
+
       bidMessage.textContent = 'Could not place bid. Please try again.';
       bidMessage.classList.remove('hidden');
     }
-  });
-  const backBtn = document.querySelector<HTMLButtonElement>('#listing-back');
-  backBtn?.addEventListener('click', () => {
-    window.location.hash = '#/';
+
+    const backBtn = document.querySelector<HTMLButtonElement>('#listing-back');
+    backBtn?.addEventListener('click', () => {
+      window.location.hash = '#/';
+    });
   });
 }

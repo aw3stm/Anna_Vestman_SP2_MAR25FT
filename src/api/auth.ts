@@ -136,3 +136,10 @@ export function getProfile(): { name: string; email: string } | null {
   }
   return JSON.parse(profile);
 }
+
+export function logout(): void {
+  localStorage.removeItem('token');
+  localStorage.removeItem('profile');
+
+  window.location.reload();
+}

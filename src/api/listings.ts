@@ -1,4 +1,5 @@
 import type { listing } from '../components/productCard';
+import { getApiKey, getToken } from './auth';
 
 const API_URL = 'https://v2.api.noroff.dev';
 
@@ -33,20 +34,29 @@ export async function getListingById(id: string): Promise<listing> {
 }
 
 export async function placeBid(id: string, amount: number): Promise<listing> {
-  const token = localStorage.getItem('token');
+  const token = getToken();
+  const apiKey = getApiKey();
+
+  if (!token || !apiKey) {
+    throw new Error('Authentication information is missing');
+  }
 
   const response = await fetch(`${API_URL}/auction/listings/${id}/bids`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      'X-Noroff-API-Key': apiKey,
     },
     body: JSON.stringify({
       amount,
     }),
   });
   if (!response.ok) {
-    throw new Error('Failed to place bid');
+    const errorData = await response.json();
+    console.error('Place bid error', errorData);
+
+    throw new Error(errorData.errors?.[0]?.message || 'Failed to place bid');
   }
   const data: { data: listing } = await response.json();
   return data.data;
