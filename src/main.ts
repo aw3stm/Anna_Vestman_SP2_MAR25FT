@@ -3,7 +3,8 @@ import './style.css';
 import { initNavbar, renderNavbar } from './components/navbar';
 import { initFooter, renderFooter } from './components/footer';
 import { renderPage } from './router';
-import { initHomeSearch } from './pages/home';
+import { initHomeCards, initHomeSearch } from './pages/home';
+import { initListingDetails } from './pages/listingDetails';
 
 async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
@@ -12,7 +13,11 @@ async function renderApp() {
     throw new Error('App element not found');
   }
 
-  const path = window.location.hash.replace('#/', '').split('?')[0];
+  const hash = window.location.hash.replace('#/', '');
+  const [path, queryString] = hash.split('?');
+
+  const params = new URLSearchParams(queryString);
+  const listingId = params.get('id');
 
   const isAuthPage = path === 'login' || path === 'register';
 
@@ -41,7 +46,15 @@ async function renderApp() {
   if (!isAuthPage) {
     initNavbar();
     initFooter();
-    initHomeSearch();
+
+    if (path === '') {
+      initHomeSearch();
+      initHomeCards();
+    }
+
+    if (path === 'listing') {
+      initListingDetails(listingId ?? '');
+    }
   }
 }
 

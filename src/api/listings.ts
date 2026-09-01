@@ -22,3 +22,32 @@ export async function getListings(): Promise<listing[]> {
   const data: ListingResponse = await response.json();
   return data.data;
 }
+
+export async function getListingById(id: string): Promise<listing> {
+  const response = await fetch(`${API_URL}/auction/listings/${id}?_seller=true&_bids=true`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch listing');
+  }
+  const data: { data: listing } = await response.json();
+  return data.data;
+}
+
+export async function placeBid(id: string, amount: number): Promise<listing> {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(`${API_URL}/auction/listings/${id}/bids`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      amount,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to place bid');
+  }
+  const data: { data: listing } = await response.json();
+  return data.data;
+}
