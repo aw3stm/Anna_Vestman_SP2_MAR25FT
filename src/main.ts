@@ -7,7 +7,7 @@ import { initHomeCards, initHomeSearch } from './pages/home';
 import { initListingDetails } from './pages/listingDetails';
 import { initRegister } from './pages/register';
 import { initLogin } from './pages/login';
-import { getCurrentProfile, getToken } from './api/auth';
+import { getProfile, getToken } from './api/auth';
 
 async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
@@ -24,15 +24,7 @@ async function renderApp() {
 
   const isAuthPage = path === 'login' || path === 'register';
   const isLoggedIn = !!getToken();
-
-  let profile = null;
-  if (isLoggedIn) {
-    try {
-      profile = await getCurrentProfile();
-    } catch (error) {
-      console.error('Could not load profile', error);
-    }
-  }
+  const profile = getProfile();
 
   const page = await renderPage();
 

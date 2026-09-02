@@ -129,7 +129,17 @@ export async function getCurrentProfile(): Promise<ProfileResponse['data']> {
   return data.data;
 }
 
-export function getProfile(): { name: string; email: string } | null {
+export interface StoredProfile {
+  name: string;
+  email: string;
+  credits?: number;
+  avatar?: {
+    url: string;
+    alt: string;
+  };
+}
+
+export function getProfile(): StoredProfile | null {
   const profile = localStorage.getItem('profile');
   if (!profile) {
     return null;
@@ -140,6 +150,7 @@ export function getProfile(): { name: string; email: string } | null {
 export function logout(): void {
   localStorage.removeItem('token');
   localStorage.removeItem('profile');
+  localStorage.removeItem('apiKey');
 
   window.location.reload();
 }

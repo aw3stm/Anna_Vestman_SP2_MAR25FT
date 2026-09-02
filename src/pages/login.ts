@@ -1,4 +1,4 @@
-import { createApiKey, getApiKey, loginUser } from '../api/auth';
+import { createApiKey, getApiKey, getCurrentProfile, loginUser } from '../api/auth';
 import { renderAuthLayout } from '../components/authLayout';
 
 export function renderLogin(): string {
@@ -81,10 +81,12 @@ export function initLogin(): void {
           email: user.email,
         }),
       );
+
       if (!getApiKey()) {
         await createApiKey();
       }
-
+      const profile = await getCurrentProfile();
+      localStorage.setItem('profile', JSON.stringify(profile));
       window.location.hash = '#/';
     } catch (error) {
       errorMessage.textContent =

@@ -1,5 +1,5 @@
 import { getApiKey, getToken } from '../api/auth';
-import { placeBid } from '../api/listings';
+import { getListingById, placeBid } from '../api/listings';
 import type { listing } from '../components/productCard';
 
 function getCurrentBid(product: listing): number {
@@ -44,7 +44,7 @@ export function renderListingDetails(product: listing): string {
     <div class="mx-auto max-w-6xl px-6 py-8 sm:px-8 md:py-12 bg-white">
     
     <button type="button"
-    id="listing-back"
+    id="back-btn"
     class="mb-6 flex cursor-pointer items-center gap-1 text-sm text-orange-accent">
     <span class="material-symbols-outlined">
     arrow_back
@@ -258,9 +258,15 @@ export function initListingDetails(productId: string): void {
       thumbnail.classList.add('border-orange-accent');
     });
   });
+  const backBtn = document.querySelector<HTMLButtonElement>('#back-btn');
+  backBtn?.addEventListener('click', () => {
+    window.history.back();
+  });
+
   const bidForm = document.querySelector<HTMLFormElement>('#bid-form');
   const bidInput = document.querySelector<HTMLInputElement>('#bid-amount');
   const bidMessage = document.querySelector<HTMLParagraphElement>('#bid-msg');
+
   const token = getToken();
   const apiKey = getApiKey();
 
@@ -286,7 +292,8 @@ export function initListingDetails(productId: string): void {
     }
 
     try {
-      const updatedListing = await placeBid(productId, amount);
+      await placeBid(productId, amount);
+      const updatedListing = await getListingById(productId);
 
       bidMessage.textContent = 'Bid placed successfully!';
       bidMessage.classList.remove('hidden');
@@ -338,10 +345,5 @@ export function initListingDetails(productId: string): void {
       bidMessage.textContent = 'Could not place bid. Please try again.';
       bidMessage.classList.remove('hidden');
     }
-
-    const backBtn = document.querySelector<HTMLButtonElement>('#listing-back');
-    backBtn?.addEventListener('click', () => {
-      window.location.hash = '#/';
-    });
   });
 }
