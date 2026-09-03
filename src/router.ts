@@ -6,7 +6,6 @@ import { renderRegister } from './pages/register';
 import { renderListingDetails } from './pages/listingDetails';
 import { renderCreateListing } from './pages/createListing';
 
-
 export async function renderPage(): Promise<string> {
   const hash = window.location.hash.replace('#/', '');
 
@@ -24,12 +23,12 @@ export async function renderPage(): Promise<string> {
     case 'register':
       return renderRegister();
 
-      case 'create-listing':
-        if (!getToken()) {
-          window.location.hash = '#/login';
-          return;
-        }
-        return renderCreateListing();
+    case 'create-listing':
+      if (!getToken()) {
+        window.location.hash = '#/login';
+        return '';
+      }
+      return renderCreateListing();
 
     case 'listing': {
       if (!listingId) {
