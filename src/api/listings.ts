@@ -61,3 +61,40 @@ export async function placeBid(id: string, amount: number): Promise<listing> {
   const data: { data: listing } = await response.json();
   return data.data;
 }
+
+export interface CreateListingData {
+  title: string;
+  description: string;
+  endsAt: string;
+  media?: {
+    url: string;
+    alt: string;
+  }[];
+  tags?: string[];
+}
+
+export async function createListing(listing: CreateListingData): Promise<listing> {
+  const token = getToken();
+  const apiKey = getApiKey();
+
+  if (!token || !apiKey) {
+    throw new Error('Authentication information is missing');
+  }
+  const response = await fetch(`${API_URL}/auction/listings`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      'X-Noroff-API-Key': apiKey,
+    },
+    body: JSON.stringify(listing),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error('Create listing error', errorData);
+
+    throw new Error(errorData.errors?.[0]?.message || 'Failed to create listing');
+  }
+  const data: { data: listing } = await response.json();
+  return data.data;
+}

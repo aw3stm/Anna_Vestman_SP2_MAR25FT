@@ -8,6 +8,7 @@ import { initListingDetails } from './pages/listingDetails';
 import { initRegister } from './pages/register';
 import { initLogin } from './pages/login';
 import { getProfile, getToken } from './api/auth';
+import { initCreateListing } from './pages/createListing';
 
 async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
@@ -59,6 +60,9 @@ async function renderApp() {
 
     if (path === 'listing') {
       initListingDetails(listingId ?? '');
+    }
+    if (path === 'create-listing') {
+      initCreateListing();
     }
   }
   if (path === 'register') {
