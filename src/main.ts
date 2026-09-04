@@ -9,6 +9,7 @@ import { initRegister } from './pages/register';
 import { initLogin } from './pages/login';
 import { getProfile, getToken } from './api/auth';
 import { initCreateListing } from './pages/createListing';
+import { initProfile } from './pages/profile';
 
 async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
@@ -63,6 +64,9 @@ async function renderApp() {
     }
     if (path === 'create-listing') {
       initCreateListing();
+    }
+    if (path === 'profile') {
+      initProfile();
     }
   }
   if (path === 'register') {

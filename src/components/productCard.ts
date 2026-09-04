@@ -80,7 +80,7 @@ export function renderProductCard(listing: listing): string {
   return `
   <article class="product-card bidora-card flex overflow-hidden p-0 md:flex-col cursor-pointer"
   data-id="${listing.id}">
-  <div class="relative h-48 w-48 shrink-0 bg-styling md:h-72 md:w-full">
+  <div class="relative h-48 w-48 shrink-0 overflow-hidden rounded-l-3xl bg-styling md:h-72 md:w-full md:rounded-l-3xl">
   ${
     isNew
       ? `<span class="absolute left-3 top-3 z-10 md:hidden bidora-badge-mobile">Just in</span>
@@ -90,7 +90,7 @@ export function renderProductCard(listing: listing): string {
 
   <button type="button"
   aria-label="Add ${listing.title} to favorites"
-  class="absolute right-4 top-4 z-10">
+  class="absolute right-4 top-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white shadow-md">
   <span class="material-symbols-outlined">
   favorite
   </span>
@@ -100,32 +100,38 @@ export function renderProductCard(listing: listing): string {
   </div>
 
 
-  <div class="flex flex-1 flex-col p-4 md:p-6">
-  <h3 class="text-lg font-bold leading-tight md:text-2xl">${listing.title}</h3>
-  <p class="mt-1 text-sm md:text-lg">
+  <div class="flex flex-1 flex-col p-4 md:p-5">
+  <h3 class="text-lg font-bold leading-tight md:text-xl">${listing.title}</h3>
+  <p class="mt-1 text-sm md:text-base">
   ${category}</p>
 
-  <div class="mt-6 flex items-end justify-between gap-4 md:mt-8">
+  <div class="mt-6 flex items-end justify-between gap-4 md:mt-5">
   <div>
-  <p class="text-sm md:text-lg">Current bid</p>
-  <p class="text-base font-bold md:text-2xl">
+  <p class="text-sm md:text-base">Current bid</p>
+  <p class="text-base font-bold md:text-xl">
   ${currentBid} 
   <span class="font-normal">credits</span>
   </p>
   </div>
 
   <div>
-  <p class="text-sm md:text-lg">Ends in</p>
-  <p class="flex items-center gap-1 font-semibold text-orange-accent md:text-2xl">
-  <span class="material-symbols-outlined">schedule</span>
-  ${timeRemaining}
-  </p>
+  <p class="text-sm md:text-base">Ends in</p>
+ <p class="flex items-center gap-2 font-semibold text-orange-accent md:text-xl">
+  <span class="material-symbols-outlined text-xl">schedule</span>
+  <span class="relative top-0.5">${timeRemaining}</span>
+</p>
   </div>
   </div>
 
-  <button type="button" class="bidora-button mt-4 w-full px-4 py-3 md:mt-6 md:text-xl hover:bg-hover-btn">Place a bid 
-  <span class="material-symbols-outlined align-middle">arrow_forward</span>
-  </button>
+  <button
+  type="button"
+  class="group mt-5 flex w-full items-center justify-center gap-2 py-2 text-lg font-semibold text-text transition-colors hover:text-orange-accent cursor-pointer"
+>
+  Place a bid
+  <span class="material-symbols-outlined text-xl transition-transform group-hover:translate-x-1">
+    arrow_forward
+  </span>
+</button>
   </div>
   </article>
   `;

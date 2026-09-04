@@ -91,11 +91,12 @@ export function getToken(): string | null {
   return localStorage.getItem('token');
 }
 
-interface ProfileResponse {
+export interface ProfileResponse {
   data: {
     name: string;
     email: string;
     credits: number;
+    bio?: string;
     avatar?: {
       url: string;
       alt: string;
@@ -103,6 +104,10 @@ interface ProfileResponse {
     banner?: {
       url: string;
       alt: string;
+    };
+    _count?: {
+      listings?: number;
+      wins?: number;
     };
   };
 }
@@ -133,9 +138,18 @@ export interface StoredProfile {
   name: string;
   email: string;
   credits?: number;
+  bio?: string;
   avatar?: {
     url: string;
     alt: string;
+  };
+  banner?: {
+    url: string;
+    alt: string;
+  };
+  _count?: {
+    listings?: number;
+    wins?: number;
   };
 }
 

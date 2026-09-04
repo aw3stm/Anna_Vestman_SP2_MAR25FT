@@ -158,7 +158,7 @@ export function renderCreateListing(): string {
           <button
             type="submit"
             id="create-listing-btn"
-            class="bidora-button w-full px-6 py-3"
+            class="bidora-button w-3xs mx-auto block px-4 py-3 hover:bg-hover-btn"
           >
             Create listing
           </button>
@@ -170,43 +170,25 @@ export function renderCreateListing(): string {
 }
 
 export function initCreateListing(): void {
-  const form =
-    document.querySelector<HTMLFormElement>('#create-listing-form');
+  const form = document.querySelector<HTMLFormElement>('#create-listing-form');
 
-  const titleInput =
-    document.querySelector<HTMLInputElement>('#listing-title');
+  const titleInput = document.querySelector<HTMLInputElement>('#listing-title');
 
-  const descriptionInput =
-    document.querySelector<HTMLTextAreaElement>(
-      '#listing-description',
-    );
+  const descriptionInput = document.querySelector<HTMLTextAreaElement>('#listing-description');
 
-  const categoryInput =
-    document.querySelector<HTMLSelectElement>('#listing-category');
+  const categoryInput = document.querySelector<HTMLSelectElement>('#listing-category');
 
-  const deadlineInput =
-    document.querySelector<HTMLInputElement>('#listing-deadline');
+  const deadlineInput = document.querySelector<HTMLInputElement>('#listing-deadline');
 
-  const imageFields =
-    document.querySelector<HTMLDivElement>('#image-fields');
+  const imageFields = document.querySelector<HTMLDivElement>('#image-fields');
 
-  const addImageButton =
-    document.querySelector<HTMLButtonElement>('#add-image-btn');
+  const addImageButton = document.querySelector<HTMLButtonElement>('#add-image-btn');
 
-  const errorMessage =
-    document.querySelector<HTMLParagraphElement>(
-      '#create-listing-error',
-    );
+  const errorMessage = document.querySelector<HTMLParagraphElement>('#create-listing-error');
 
-  const successMessage =
-    document.querySelector<HTMLParagraphElement>(
-      '#create-listing-success',
-    );
+  const successMessage = document.querySelector<HTMLParagraphElement>('#create-listing-success');
 
-  const submitButton =
-    document.querySelector<HTMLButtonElement>(
-      '#create-listing-btn',
-    );
+  const submitButton = document.querySelector<HTMLButtonElement>('#create-listing-btn');
 
   if (
     !form ||
@@ -231,8 +213,7 @@ export function initCreateListing(): void {
 
     const imageField = document.createElement('div');
 
-    imageField.className =
-      'image-field rounded-xl border border-gray-200 p-4';
+    imageField.className = 'image-field rounded-xl border border-gray-200 p-4';
 
     imageField.innerHTML = `
       <label
@@ -303,15 +284,9 @@ export function initCreateListing(): void {
     submitButton.disabled = true;
     submitButton.textContent = 'Creating...';
 
-    const imageInputs =
-      document.querySelectorAll<HTMLInputElement>(
-        'input[name="image"]',
-      );
+    const imageInputs = document.querySelectorAll<HTMLInputElement>('input[name="image"]');
 
-    const altInputs =
-      document.querySelectorAll<HTMLInputElement>(
-        'input[name="imageAlt"]',
-      );
+    const altInputs = document.querySelectorAll<HTMLInputElement>('input[name="imageAlt"]');
 
     const media = Array.from(imageInputs).map((input, index) => ({
       url: input.value.trim(),
@@ -327,8 +302,7 @@ export function initCreateListing(): void {
         tags: [categoryInput.value],
       });
 
-      successMessage.textContent =
-        'Listing created successfully!';
+      successMessage.textContent = 'Listing created successfully!';
 
       successMessage.classList.remove('hidden');
 
@@ -337,9 +311,7 @@ export function initCreateListing(): void {
       console.error(error);
 
       errorMessage.textContent =
-        error instanceof Error
-          ? error.message
-          : 'Could not create listing. Please try again.';
+        error instanceof Error ? error.message : 'Could not create listing. Please try again.';
 
       errorMessage.classList.remove('hidden');
 

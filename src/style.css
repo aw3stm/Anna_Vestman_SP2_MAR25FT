@@ -34,6 +34,10 @@ h1 {
   font-weight: var(--font-weight-h1);
 }
 
+button {
+  cursor: pointer;
+}
+
 @theme {
   --font-primary: 'khula', sans-serif;
   --font-h1: 'noto sans lao', sans-serif;
@@ -109,16 +113,19 @@ h1 {
 }
 
 @utility bidora-badge {
-  display: flex;
-  height: 4rem;
-  width: 4rem;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  padding: 0.55rem 1rem;
+  border-radius: 0.5rem;
   background-color: var(--color-orange-accent);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #ffffff;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 12%);
+  transform: rotate(-6deg);
 }
 
 @utility bidora-badge-mobile {
@@ -127,7 +134,7 @@ h1 {
   width: 4.5rem;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  border-radius: 0.5rem;
   background-color: var(--color-orange-accent);
   font-size: 0.75rem;
   font-weight: 600;

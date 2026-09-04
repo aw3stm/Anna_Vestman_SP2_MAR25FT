@@ -99,19 +99,12 @@ export function renderRegister(): string {
             />
           </div>
 
-          <div class="text-center text-base text-text">
-            Already have an account?
-            <a href="#/login" class="text-orange-accent hover:underline">
-              Sign in
-            </a>
-          </div>
+        
 
-          <button
-            type="submit"
-            class="bidora-button w-full px-6 py-3"
-          >
-            Create account
-          </button>
+        <button type="submit" class="bidora-button w-3xs mx-auto block px-6 py-3 hover:bg-hover-btn">
+        Create account
+        </button>
+          
 
           <p
             id="register-error"
