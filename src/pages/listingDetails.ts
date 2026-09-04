@@ -171,36 +171,39 @@ export function renderListingDetails(product: listing): string {
       <div class="mt-8">
         <h2 class="text-lg font-semibold">Place your bid</h2>
 
-        <form id="bid-form" class="mt-3">
-          <label for="bid-amount" class="sr-only">
-            Bid amount
-          </label>
+       <form id="bid-form" class="mt-3">
+  <label for="bid-amount" class="sr-only">
+    Bid amount
+  </label>
 
-          <div class="relative">
-            <input
-              type="number"
-              id="bid-amount"
-              name="bidAmount"
-              min="${currentBid + 1}"
-              placeholder="Enter your bid"
-              required
-              class="h-12 w-full rounded-lg border border-gray-300 px-4 pr-20 outline-none focus:border-orange-accent"
-            />
+  <div class="flex items-center gap-3">
+    <div class="relative flex-1">
+      <input
+        type="number"
+        id="bid-amount"
+        name="bidAmount"
+        min="${currentBid + 1}"
+        placeholder="Enter your bid"
+        required
+        class="h-12 w-full rounded-lg border border-gray-300 px-4 pr-20 outline-none focus:border-orange-accent"
+      />
 
-            <span
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text/60"
-            >
-              credits
-            </span>
-          </div>
+      <span
+        class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text/60"
+      >
+        credits
+      </span>
+    </div>
 
-          <button
-            type="submit"
-            id="place-bid-btn"
-            class="bidora-button mt-3 w-full py-3"
-          >
-            Place bid
-          </button>
+    <button
+      type="submit"
+      id="place-bid-btn"
+      class="bidora-button h-12 shrink-0 px-6 hover:bg-hover-btn"
+    >
+      Place bid
+    </button>
+  </div>
+</form>
 
           <p
             id="bid-msg"

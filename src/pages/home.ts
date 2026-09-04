@@ -2,6 +2,7 @@ import { getListings } from '../api/listings';
 import retroJacket from '../assets/Retro_Jacket.png';
 import { renderProductCard } from '../components/productCard';
 import type { listing } from '../components/productCard';
+import scrollDown from '../assets/bouncing-circle.svg';
 
 let products: listing[] = [];
 
@@ -90,58 +91,75 @@ export async function renderHome(): Promise<string> {
         </div>
     </section>
 
-<! ====== Hero ======= >
-<section id="hero-section" class="bg-styling">
-  <div
-    class="mx-auto flex max-w-5xl flex-col px-6 py-10 sm:px-8 md:py-14"
-  >
 
-    <!-- Text + jacket -->
+
+<section id="hero-section" class="bg-styling">
+  <div class="mx-auto max-w-6xl px-6 md:px-8">
     <div
-      class="flex flex-col md:flex-row md:items-center md:justify-center md:gap-4"
+      class="relative flex min-h-105 items-center justify-center py-10 md:min-h-100"
     >
 
-      <!-- Text -->
-      <div class="max-w-md">
-        <h1 class="text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">
-          Bid. Discover. Win.
-        </h1>
-
-        <p class="mt-4 text-lg leading-6 sm:text-xl sm:leading-7 md:text-2xl">
-          Find something worth bidding on.
-        </p>
-      </div>
-
-      <!-- Jacket -->
+      <!-- Text + jacket -->
       <div
-        class="relative mt-8 flex shrink-0 items-center justify-center md:mt-0"
+        class="flex flex-col items-center gap-2 md:flex-row md:gap-8"
       >
-        <span
-          class="bidora-badge absolute right-30 -top-4 z-10 uppercase shadow-md md:-right-2"
-        >
-          Just in
-        </span>
 
-        <img
-          src="${retroJacket}"
-          alt="Vintage leather jacket"
-          class="h-40 w-40 object-contain md:h-60 md:w-60"
-        />
+        <!-- Text -->
+        <div class="max-w-md text-center md:text-left">
+          <p
+            class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-orange-accent"
+          >
+            Discover something different
+          </p>
+
+          <h1
+            class="text-4xl font-bold leading-tight sm:text-5xl md:text-6xl"
+          >
+            Bid. Discover. Win.
+          </h1>
+
+          <p
+            class="mt-3 text-lg leading-7 text-text/75 md:text-xl"
+          >
+            Unique finds, vintage treasures and everyday favourites,
+            all waiting for the right bid.
+          </p>
+        </div>
+
+        <!-- Jacket -->
+        <div class="relative shrink-0">
+          <span
+            class="bidora-badge absolute right-0 top-3 z-10 uppercase shadow-md md:right-3 md:top-6"
+          >
+            Just in
+          </span>
+
+          <img
+            src="${retroJacket}"
+            alt="Vintage leather jacket"
+            class="h-44 w-44 object-contain sm:h-52 sm:w-52 md:h-60 md:w-60"
+          />
+        </div>
+
       </div>
 
-    </div>
-
-    <!-- Button -->
-    <div class="mt-6 flex justify-center">
-      <button
-        class="bidora-button px-12 py-4 text-base hover:bg-hover-btn md:px-16"
+      <!-- Scroll indicator -->
+      <a
+        href="#product-grid"
+        aria-label="Scroll to listings"
+        class="absolute bottom-4 left-1/2 -translate-x-1/2"
       >
-        View products
-      </button>
-    </div>
+        <img
+          src="${scrollDown}"
+          alt=""
+          class="h-12 w-12 animate-bounce md:h-16 md:w-16"
+        />
+      </a>
 
+    </div>
   </div>
 </section>
+
 
 <section class="bg-white">
   <div class="mx-auto max-w-6xl px-6 py-10 md:px-8">

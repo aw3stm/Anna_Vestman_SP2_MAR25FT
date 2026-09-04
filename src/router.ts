@@ -5,6 +5,7 @@ import { renderLogin } from './pages/login';
 import { renderRegister } from './pages/register';
 import { renderListingDetails } from './pages/listingDetails';
 import { renderCreateListing } from './pages/createListing';
+import { renderProfile } from './pages/profile';
 
 export async function renderPage(): Promise<string> {
   const hash = window.location.hash.replace('#/', '');
@@ -29,6 +30,13 @@ export async function renderPage(): Promise<string> {
         return '';
       }
       return renderCreateListing();
+
+    case 'profile':
+      if (!getToken()) {
+        window.location.hash = '#/login';
+        return '';
+      }
+      return renderProfile();
 
     case 'listing': {
       if (!listingId) {

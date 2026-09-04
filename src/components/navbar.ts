@@ -8,17 +8,13 @@ import { logout } from '../api/auth';
 function getDeskLinkClass(path: string): string {
   const currentPath = window.location.hash.replace('#/', '').split('?')[0];
 
-  return currentPath === path
-    ? 'text-gray-600 border-b-2 border-[#E8754F] pb-1'
-    : 'text-gray-600';
+  return currentPath === path ? 'text-gray-600 border-b-2 border-[#E8754F] pb-1' : 'text-gray-600';
 }
 
 function getMobLinkClass(path: string): string {
   const currentPath = window.location.hash.replace('#/', '').split('?')[0];
 
-  return currentPath === path
-    ? 'text-[#E8754F] border-l-4 border-[#E8754F] pl-3'
-    : 'text-gray-600';
+  return currentPath === path ? 'text-[#E8754F] border-l-4 border-[#E8754F] pl-3' : 'text-gray-600';
 }
 
 interface NavbarProps {
@@ -61,7 +57,7 @@ export function renderNavbar({
 
           <a
             href="#/"
-            class="text-xl font-semibold ${getDeskLinkClass('')}"
+            class="text-lg font-medium ${getDeskLinkClass('')}"
           >
             Listings
           </a>
@@ -71,7 +67,7 @@ export function renderNavbar({
               ? `
                 <a
                   href="#/create-listing"
-                  class="text-xl font-semibold ${getDeskLinkClass('create-listing')}"
+                  class="text-lg font-medium ${getDeskLinkClass('create-listing')}"
                 >
                   Create Listing
                 </a>
@@ -81,7 +77,7 @@ export function renderNavbar({
 
           <a
             href="#/how-it-works"
-            class="text-xl font-semibold ${getDeskLinkClass('how-it-works')}"
+            class="text-lg font-medium ${getDeskLinkClass('how-it-works')}"
           >
             How it works
           </a>
@@ -91,7 +87,7 @@ export function renderNavbar({
               ? `
                 <a
                   href="#/login"
-                  class="text-xl font-semibold ${getDeskLinkClass('login')}"
+                  class="text-lg font-medium ${getDeskLinkClass('login')}"
                 >
                   Sign in
                 </a>
@@ -111,7 +107,7 @@ export function renderNavbar({
                   alt=""
                 />
 
-                <span class="text-gray-600 md:text-lg">
+                <span class="text-text font-medium md:text-lg">
                   ${credits.toLocaleString()} credits
                 </span>
 
@@ -218,10 +214,7 @@ export function initNavbar(): void {
 
       const isOpen = !mobileMenu.classList.contains('hidden');
 
-      menuBtn.setAttribute(
-        'aria-label',
-        isOpen ? 'Close menu' : 'Open menu',
-      );
+      menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     });
   }
 

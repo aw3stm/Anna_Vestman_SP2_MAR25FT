@@ -43,7 +43,7 @@ export function renderLogin(): string {
           <div class="text-right">
           <a href="#" class="text-sm text-orange-accent hover:underline">Forgot password?</a></div>
 
-          <button type="submit" class="bidora-button w-full px-6 py-3">Sign in</button>
+          <button type="submit" class="bidora-button w-3xs mx-auto block px-6 py-3 hover:bg-hover-btn">Sign in</button>
 
           <p id="login-error" class="hidden text-center text-sm text-delete-btn"></p>
           </form>
