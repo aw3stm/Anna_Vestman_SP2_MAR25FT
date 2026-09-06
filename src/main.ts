@@ -3,7 +3,7 @@ import './style.css';
 import { initNavbar, renderNavbar } from './components/navbar';
 import { initFooter, renderFooter } from './components/footer';
 import { renderPage } from './router';
-import { initHomeCards, initHomeSearch } from './pages/home';
+import { initHomeCards, initHomeSearch, initHomeScroll } from './pages/home';
 import { initListingDetails } from './pages/listingDetails';
 import { initRegister } from './pages/register';
 import { initLogin } from './pages/login';
@@ -57,12 +57,13 @@ async function renderApp() {
     if (path === '') {
       initHomeSearch();
       initHomeCards();
+      initHomeScroll();
     }
 
     if (path === 'listing') {
       initListingDetails(listingId ?? '');
     }
-    if (path === 'create-listing') {
+    if (path === 'create-listing' || path === 'edit-listing') {
       initCreateListing();
     }
     if (path === 'profile') {

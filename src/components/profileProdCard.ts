@@ -4,6 +4,7 @@ function getCurrentBid(listing: listing): number {
   if (!listing.bids || listing.bids.length === 0) {
     return 0;
   }
+
   return Math.max(...listing.bids.map((bid) => bid.amount));
 }
 
@@ -26,7 +27,7 @@ function getRemainingTime(endsAt: string): string {
   return `${hours}h ${minutes}m left`;
 }
 
-export function renderProfileProdCard(listing: listing): string {
+export function renderProfileProdCard(listing: listing, showActions = false): string {
   const image = listing.media?.[0]?.url ?? '';
   const altImg = listing.media?.[0]?.alt || listing.title;
   const currentBid = getCurrentBid(listing);
@@ -34,44 +35,83 @@ export function renderProfileProdCard(listing: listing): string {
   const timeRemaining = getRemainingTime(listing.endsAt);
 
   return `
-    <article class="profile-product-card cursor-pointer overflow-hidden rounded-2xl bg-white shadow-md"
-    data-id="${listing.id}">
-    <div class="relative h-32 bg-styling">
-     <span class="absolute left-3 top-3 z-10 rounded-lg bg-primary-green px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
-    Active
-    </span>
+    <article
+      class="profile-product-card cursor-pointer overflow-hidden rounded-2xl bg-white shadow-md"
+      data-id="${listing.id}"
+    >
+      <div class="relative h-32 bg-styling">
 
-    <button
-    type="button"
-    aria-label="Add ${listing.title} to favorites"
-    class="absolute right-3 top-3 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white">
-    <span class="material-symbols-outlined text-2xl">
-    favorite
-    </span>
-    </button>
+        <span
+          class="absolute left-3 top-4 z-10 rounded-lg bg-primary-green px-3.5 py-2 text-xs font-semibold text-white shadow-sm"
+        >
+          Active
+        </span>
 
-    <img src="${image}" 
-    alt="${altImg}"
-    class="h-full w-full object-contain">
-    </div>
+        <button
+          type="button"
+          aria-label="Add ${listing.title} to favorites"
+          class="absolute right-3 top-3 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white shadow-md"
+        >
+          <span class="material-symbols-outlined text-2xl">
+            favorite
+          </span>
+        </button>
 
-    <div class="px-3 py-3">
-    <h3 class="line-clamp-2 text-base font-bold leading-tight">
-    ${listing.title}</h3>
+        <img
+          src="${image}"
+          alt="${altImg}"
+          class="h-full w-full object-contain"
+        />
+      </div>
 
-    <p class="mt-2 text-base">
-    ${currentBid} credits
-    </p>
+      <div class="px-3 py-3">
+        <h3 class="line-clamp-2 text-base font-bold leading-tight">
+          ${listing.title}
+        </h3>
 
-    <div class="mt-4 flex items-center justify-between gap-2 text-sm">
-    <span>${bids} bids
-    </span>
-    
-    <span class="text-shadow-orange-accent">
-    ${timeRemaining}
-    </span>
-    </div>
-    </div>
+        <p class="mt-2 text-base">
+          ${currentBid} credits
+        </p>
+
+        <div class="mt-4 flex items-center justify-between gap-2 text-sm">
+          <span>
+            ${bids} bids
+          </span>
+
+          <span class="text-orange-accent">
+            ${timeRemaining}
+          </span>
+        </div>
+
+        ${
+          showActions
+            ? `
+              <div class="mt-4 flex gap-2 border-t border-gray-100 pt-3">
+
+                <button
+                  type="button"
+                  class="edit-listing-button flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50"
+                  data-edit-id="${listing.id}"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="delete-listing-button flex-1 rounded-lg bg-orange-accent px-3 py-2 text-sm font-semibold text-white hover:bg-hover-btn"
+                  data-delete-id="${listing.id}"
+                >
+                  <span class="material-symbols-outlined mr-1 align-middle text-base">
+                    delete_outline
+                  </span>
+                  Delete
+                </button>
+
+              </div>
+            `
+            : ''
+        }
+      </div>
     </article>
-    `;
+  `;
 }

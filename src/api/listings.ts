@@ -98,3 +98,59 @@ export async function createListing(listing: CreateListingData): Promise<listing
   const data: { data: listing } = await response.json();
   return data.data;
 }
+
+export async function updateListing(
+  id: string,
+  listing: Partial<CreateListingData>,
+): Promise<listing> {
+  const token = getToken();
+  const apiKey = getApiKey();
+
+  if (!token || !apiKey) {
+    throw new Error('Authentication information is missing');
+  }
+
+  const response = await fetch(`${API_URL}/auction/listings/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      'X-Noroff-API-Key': apiKey,
+    },
+    body: JSON.stringify(listing),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error('Update listing error', errorData);
+
+    throw new Error(errorData.errors?.[0]?.message || 'Failed to update listing');
+  }
+
+  const data: { data: listing } = await response.json();
+  return data.data;
+}
+
+export async function deleteListing(id: string): Promise<void> {
+  const token = getToken();
+  const apiKey = getApiKey();
+
+  if (!token || !apiKey) {
+    throw new Error('Authentication information is missing');
+  }
+
+  const response = await fetch(`${API_URL}/auction/listings/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'X-Noroff-API-Key': apiKey,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error('Delete listing error', errorData);
+
+    throw new Error(errorData.errors?.[0]?.message || 'Failed to delete listing');
+  }
+}

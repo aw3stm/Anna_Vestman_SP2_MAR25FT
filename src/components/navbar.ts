@@ -107,7 +107,7 @@ export function renderNavbar({
                   alt=""
                 />
 
-                <span class="text-text font-medium md:text-lg">
+                <span id="navbar-credits" class="text-text font-medium md:text-lg">
                   ${credits.toLocaleString()} credits
                 </span>
 
@@ -201,6 +201,13 @@ export function renderNavbar({
       </div>
     </header>
   `;
+}
+export function updateNavbarCredits(credits: number): void {
+  const creditsElement = document.querySelector<HTMLSpanElement>('#navbar-credits');
+
+  if (creditsElement) {
+    creditsElement.textContent = `${credits.toLocaleString()} credits`;
+  }
 }
 
 export function initNavbar(): void {

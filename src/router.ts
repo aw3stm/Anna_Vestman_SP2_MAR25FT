@@ -31,6 +31,22 @@ export async function renderPage(): Promise<string> {
       }
       return renderCreateListing();
 
+    case 'edit-listing': {
+      if (!getToken()) {
+        window.location.hash = '#/login';
+        return '';
+      }
+
+      if (!listingId) {
+        window.location.hash = '#/profile';
+        return '';
+      }
+
+      const listing = await getListingById(listingId);
+
+      return renderCreateListing(listing);
+    }
+
     case 'profile':
       if (!getToken()) {
         window.location.hash = '#/login';

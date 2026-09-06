@@ -1,5 +1,6 @@
-import { getApiKey, getToken } from '../api/auth';
+import { getApiKey, getToken, getCurrentProfile } from '../api/auth';
 import { getListingById, placeBid } from '../api/listings';
+import { updateNavbarCredits } from '../components/navbar';
 import type { listing } from '../components/productCard';
 
 function getCurrentBid(product: listing): number {
@@ -210,7 +211,6 @@ export function renderListingDetails(product: listing): string {
             class="mt-3 hidden text-sm"
             aria-live="polite"
           ></p>
-        </form>
       </div>
     `
         : `
@@ -297,6 +297,10 @@ export function initListingDetails(productId: string): void {
     try {
       await placeBid(productId, amount);
       const updatedListing = await getListingById(productId);
+      const updatedProfile = await getCurrentProfile();
+
+      localStorage.setItem('profile', JSON.stringify(updatedProfile));
+      updateNavbarCredits(updatedProfile.credits);
 
       bidMessage.textContent = 'Bid placed successfully!';
       bidMessage.classList.remove('hidden');

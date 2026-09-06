@@ -1,4 +1,5 @@
 import { getCurrentProfile } from '../api/auth';
+import { deleteListing } from '../api/listings';
 import { updateProfile } from '../api/profile';
 import { myBids, myListings } from '../api/profile';
 import type { ProfileBid } from '../api/profile';
@@ -7,6 +8,7 @@ import { renderProfileProdCard } from '../components/profileProdCard';
 
 let listings: listing[] = [];
 let bids: ProfileBid[] = [];
+let listingToDelete: string | null = null;
 
 export async function renderProfile(): Promise<string> {
   const profile = await getCurrentProfile();
@@ -119,21 +121,19 @@ export async function renderProfile(): Promise<string> {
           </p>
         </section>
 
-       <section class="mt-8">
+    <section class="mt-8">
   <div class="flex border-b border-gray-200">
     <button
       type="button"
       id="my-listings-tab"
-      class="profile-tab px-3 pb-2 text-base font-semibold"
-    >
+      class="profile-tab px-3 pb-2 text-base font-semibold">
       My listings
     </button>
 
     <button
       type="button"
       id="my-bids-tab"
-      class="profile-tab px-3 pb-2 text-base"
-    >
+      class="profile-tab px-3 pb-2 text-base">
       My bids
     </button>
   </div>
@@ -141,17 +141,75 @@ export async function renderProfile(): Promise<string> {
   <div id="profile-listings" class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
     ${listings
       .slice(0, 4)
-      .map((listing) => renderProfileProdCard(listing))
+      .map((listing) => renderProfileProdCard(listing, true))
       .join('')}
   </div>
-</section>
+    </section>
+  </section>
 
-      </section>
-
-      <div
-  id="edit-profile-modal"
-  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 px-6"
+  <div
+  id="delete-listing-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 px-6"
 >
+  <div
+    class="relative w-full max-w-sm rounded-2xl bg-white px-8 py-7 text-center shadow-xl"
+  >
+    <button
+      type="button"
+      id="close-delete-listing"
+      aria-label="Close delete listing"
+      class="absolute right-3 top-2 flex h-9 w-9 cursor-pointer items-center justify-center text-2xl text-gray-600"
+    >
+      ×
+    </button>
+
+    <div
+      class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#FAD9D0]"
+    >
+      <span class="material-symbols-outlined text-orange-accent">
+        delete_outline
+      </span>
+    </div>
+
+    <h2 class="mt-5 text-xl font-semibold">
+      Delete this listing?
+    </h2>
+
+    <p class="mt-5 text-sm leading-6 text-text">
+      Are you sure you want to delete this listing?<br />
+      This action cannot be undone.
+    </p>
+
+    <p
+      id="delete-listing-error"
+      class="mt-4 hidden text-sm text-delete-btn"
+      aria-live="polite"
+    ></p>
+
+    <div class="mt-7 flex gap-4">
+      <button
+        type="button"
+        id="cancel-delete-listing"
+        class="h-10 flex-1 cursor-pointer rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-600 shadow-sm hover:bg-gray-50"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        id="confirm-delete-listing"
+        class="h-10 flex-1 cursor-pointer rounded-md bg-orange-accent text-sm font-medium text-white hover:bg-hover-btn"
+      >
+        <span class="material-symbols-outlined mr-1 align-middle text-lg">
+          delete_outline
+        </span>
+        Delete listing
+      </button>
+    </div>
+  </div>
+</div>
+
+  <div id="edit-profile-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 px-6">
   <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
     <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">Edit profile</h2>
@@ -273,7 +331,7 @@ export function initProfile(): void {
   listingsTab.addEventListener('click', () => {
     listingsContainer.innerHTML = listings
       .slice(0, 4)
-      .map((listing) => renderProfileProdCard(listing))
+      .map((listing) => renderProfileProdCard(listing, true))
       .join('');
 
     setActiveTab(listingsTab);
@@ -296,6 +354,31 @@ export function initProfile(): void {
 
   profileCards?.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
+
+    const deleteButton = target.closest<HTMLButtonElement>('.delete-listing-button');
+
+    if (deleteButton) {
+      const listingId = deleteButton.dataset.deleteId;
+
+      if (listingId) {
+        openDeleteModal(listingId);
+      }
+
+      return;
+    }
+
+    const editButton = target.closest<HTMLButtonElement>('.edit-listing-button');
+
+    if (editButton) {
+      const listingId = editButton.dataset.editId;
+
+      if (listingId) {
+        window.location.hash = `#/edit-listing?id=${listingId}`;
+      }
+
+      return;
+    }
+
     if (target.closest('button')) {
       return;
     }
@@ -315,26 +398,93 @@ export function initProfile(): void {
     window.location.hash = `#/listing?id=${listingId}`;
   });
 
+  const deleteListingModal = document.querySelector<HTMLDivElement>('#delete-listing-modal');
+
+  const closeDeleteListing = document.querySelector<HTMLButtonElement>('#close-delete-listing');
+
+  const cancelDeleteListing = document.querySelector<HTMLButtonElement>('#cancel-delete-listing');
+
+  const confirmDeleteListing = document.querySelector<HTMLButtonElement>('#confirm-delete-listing');
+
+  const deleteListingError = document.querySelector<HTMLParagraphElement>('#delete-listing-error');
+
+  const openDeleteModal = (listingId: string) => {
+    if (!deleteListingModal) {
+      return;
+    }
+
+    listingToDelete = listingId;
+
+    deleteListingError?.classList.add('hidden');
+
+    deleteListingModal.classList.remove('hidden');
+    deleteListingModal.classList.add('flex');
+  };
+
+  const closeDeleteModal = () => {
+    if (!deleteListingModal) {
+      return;
+    }
+
+    listingToDelete = null;
+
+    deleteListingModal.classList.add('hidden');
+    deleteListingModal.classList.remove('flex');
+  };
+
+  closeDeleteListing?.addEventListener('click', closeDeleteModal);
+  cancelDeleteListing?.addEventListener('click', closeDeleteModal);
+
+  confirmDeleteListing?.addEventListener('click', async () => {
+    if (!listingToDelete || !confirmDeleteListing) {
+      return;
+    }
+
+    deleteListingError?.classList.add('hidden');
+
+    confirmDeleteListing.disabled = true;
+    confirmDeleteListing.textContent = 'Deleting...';
+
+    try {
+      await deleteListing(listingToDelete);
+
+      listings = listings.filter((listing) => listing.id !== listingToDelete);
+
+      const card = document.querySelector<HTMLElement>(`[data-id="${listingToDelete}"]`);
+
+      card?.remove();
+
+      closeDeleteModal();
+    } catch (error) {
+      console.error(error);
+
+      if (deleteListingError) {
+        deleteListingError.textContent =
+          error instanceof Error ? error.message : 'Could not delete this listing.';
+
+        deleteListingError.classList.remove('hidden');
+      }
+
+      confirmDeleteListing.disabled = false;
+      confirmDeleteListing.innerHTML = `
+      <span class="material-symbols-outlined mr-1 align-middle text-lg">
+        delete_outline
+      </span>
+      Delete listing
+    `;
+    }
+  });
+
   const editProfileButton = document.querySelector<HTMLButtonElement>('#edit-profile-button');
-
   const editProfileModal = document.querySelector<HTMLDivElement>('#edit-profile-modal');
-
   const closeEditProfile = document.querySelector<HTMLButtonElement>('#close-edit-profile');
-
   const cancelEditProfile = document.querySelector<HTMLButtonElement>('#cancel-edit-profile');
-
   const editProfileForm = document.querySelector<HTMLFormElement>('#edit-profile-form');
-
   const bioInput = document.querySelector<HTMLTextAreaElement>('#profile-bio');
-
   const avatarInput = document.querySelector<HTMLInputElement>('#profile-avatar');
-
   const bannerInput = document.querySelector<HTMLInputElement>('#profile-banner');
-
   const errorMessage = document.querySelector<HTMLParagraphElement>('#edit-profile-error');
-
   const successMessage = document.querySelector<HTMLParagraphElement>('#edit-profile-success');
-
   const saveButton = document.querySelector<HTMLButtonElement>('#save-profile-btn');
 
   if (

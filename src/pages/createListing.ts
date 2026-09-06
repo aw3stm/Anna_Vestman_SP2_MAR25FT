@@ -1,23 +1,39 @@
-import { createListing } from '../api/listings';
+import { createListing, updateListing } from '../api/listings';
 
-export function renderCreateListing(): string {
+import type { listing } from '../components/productCard';
+
+export function renderCreateListing(existingListing?: listing): string {
+  const isEditMode = !!existingListing;
+
+  const deadlineValue = existingListing
+    ? new Date(existingListing.endsAt).toISOString().slice(0, 16)
+    : '';
+
+  const images = existingListing?.media ?? [];
+
   return `
     <main class="flex-1 bg-white text-text">
+
       <section class="mx-auto max-w-3xl px-6 py-10 md:px-8 md:py-14">
 
         <div class="mb-8">
           <h1 class="text-3xl font-bold md:text-4xl">
-            Create listing
+            ${isEditMode ? 'Edit listing' : 'Create listing'}
           </h1>
 
           <p class="mt-2 text-base text-text/70">
-            Create a new listing and let the bidding begin.
+            ${
+              isEditMode
+                ? 'Update your listing and save your changes.'
+                : 'Create a new listing and let the bidding begin.'
+            }
           </p>
         </div>
 
         <form id="create-listing-form" class="space-y-6">
 
           <!-- Title -->
+
           <div>
             <label for="listing-title" class="bidora-label">
               Title
@@ -30,11 +46,13 @@ export function renderCreateListing(): string {
               required
               maxlength="100"
               placeholder="Enter a title"
+              value="${existingListing?.title ?? ''}"
               class="bidora-input"
             />
           </div>
 
           <!-- Description -->
+
           <div>
             <label for="listing-description" class="bidora-label">
               Description
@@ -47,10 +65,11 @@ export function renderCreateListing(): string {
               rows="6"
               placeholder="Describe your item"
               class="bidora-input resize-y"
-            ></textarea>
+            >${existingListing?.description?.trim() ?? ''}</textarea>
           </div>
 
           <!-- Category -->
+
           <div>
             <label for="listing-category" class="bidora-label">
               Category
@@ -63,14 +82,39 @@ export function renderCreateListing(): string {
               class="bidora-input"
             >
               <option value="">Select a category</option>
-              <option value="Fashion">Fashion</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Home & Living">Home & Living</option>
-              <option value="Collectibles">Collectibles</option>
+
+              <option
+                value="Fashion"
+                ${existingListing?.tags?.[0] === 'Fashion' ? 'selected' : ''}
+              >
+                Fashion
+              </option>
+
+              <option
+                value="Electronics"
+                ${existingListing?.tags?.[0] === 'Electronics' ? 'selected' : ''}
+              >
+                Electronics
+              </option>
+
+              <option
+                value="Home & Living"
+                ${existingListing?.tags?.[0] === 'Home & Living' ? 'selected' : ''}
+              >
+                Home & Living
+              </option>
+
+              <option
+                value="Collectibles"
+                ${existingListing?.tags?.[0] === 'Collectibles' ? 'selected' : ''}
+              >
+                Collectibles
+              </option>
             </select>
           </div>
 
           <!-- Deadline -->
+
           <div>
             <label for="listing-deadline" class="bidora-label">
               Deadline
@@ -81,11 +125,13 @@ export function renderCreateListing(): string {
               id="listing-deadline"
               name="deadline"
               required
+              value="${deadlineValue}"
               class="bidora-input"
             />
           </div>
 
           <!-- Images -->
+
           <div>
             <label class="bidora-label">
               Images
@@ -93,42 +139,102 @@ export function renderCreateListing(): string {
 
             <div id="image-fields" class="space-y-4">
 
-              <!-- First image -->
-              <div class="image-field rounded-xl border border-gray-200 p-4">
+              ${
+                images.length > 0
+                  ? images
+                      .map(
+                        (image, index) => `
+                          <div class="image-field rounded-xl border border-gray-200 p-4">
 
-                <label
-                  for="listing-image-0"
-                  class="text-sm font-medium text-text"
-                >
-                  Image URL
-                </label>
+                            <label
+                              for="listing-image-${index}"
+                              class="text-sm font-medium text-text"
+                            >
+                              Image URL
+                            </label>
 
-                <input
-                  type="url"
-                  id="listing-image-0"
-                  name="image"
-                  required
-                  placeholder="https://example.com/image.jpg"
-                  class="bidora-input mt-2"
-                />
+                            <input
+                              type="url"
+                              id="listing-image-${index}"
+                              name="image"
+                              required
+                              value="${image.url}"
+                              placeholder="https://example.com/image.jpg"
+                              class="bidora-input mt-2"
+                            />
 
-                <label
-                  for="listing-image-alt-0"
-                  class="mt-4 block text-sm font-medium text-text"
-                >
-                  Image description
-                </label>
+                            <label
+                              for="listing-image-alt-${index}"
+                              class="mt-4 block text-sm font-medium text-text"
+                            >
+                              Image description
+                            </label>
 
-                <input
-                  type="text"
-                  id="listing-image-alt-0"
-                  name="imageAlt"
-                  required
-                  placeholder="Describe the image"
-                  class="bidora-input mt-2"
-                />
+                            <input
+                              type="text"
+                              id="listing-image-alt-${index}"
+                              name="imageAlt"
+                              required
+                              value="${image.alt ?? ''}"
+                              placeholder="Describe the image"
+                              class="bidora-input mt-2"
+                            />
 
-              </div>
+                            ${
+                              index > 0
+                                ? `
+                                  <button
+                                    type="button"
+                                    class="remove-image mt-3 cursor-pointer text-sm text-delete-btn hover:underline"
+                                  >
+                                    Remove image
+                                  </button>
+                                `
+                                : ''
+                            }
+
+                          </div>
+                        `,
+                      )
+                      .join('')
+                  : `
+                    <div class="image-field rounded-xl border border-gray-200 p-4">
+
+                      <label
+                        for="listing-image-0"
+                        class="text-sm font-medium text-text"
+                      >
+                        Image URL
+                      </label>
+
+                      <input
+                        type="url"
+                        id="listing-image-0"
+                        name="image"
+                        required
+                        placeholder="https://example.com/image.jpg"
+                        class="bidora-input mt-2"
+                      />
+
+                      <label
+                        for="listing-image-alt-0"
+                        class="mt-4 block text-sm font-medium text-text"
+                      >
+                        Image description
+                      </label>
+
+                      <input
+                        type="text"
+                        id="listing-image-alt-0"
+                        name="imageAlt"
+                        required
+                        placeholder="Describe the image"
+                        class="bidora-input mt-2"
+                      />
+
+                    </div>
+                  `
+              }
 
             </div>
 
@@ -142,6 +248,7 @@ export function renderCreateListing(): string {
           </div>
 
           <!-- Messages -->
+
           <p
             id="create-listing-error"
             class="hidden text-sm text-delete-btn"
@@ -155,12 +262,13 @@ export function renderCreateListing(): string {
           ></p>
 
           <!-- Submit -->
+
           <button
             type="submit"
             id="create-listing-btn"
-            class="bidora-button w-3xs mx-auto block px-4 py-3 hover:bg-hover-btn"
+            class="bidora-button mx-auto block w-3xs px-4 py-3 hover:bg-hover-btn"
           >
-            Create listing
+            ${isEditMode ? 'Save changes' : 'Create listing'}
           </button>
 
         </form>
@@ -170,6 +278,13 @@ export function renderCreateListing(): string {
 }
 
 export function initCreateListing(): void {
+  const hash = window.location.hash.replace('#/', '');
+  const [path, queryString] = hash.split('?');
+  const params = new URLSearchParams(queryString);
+
+  const listingId = params.get('id');
+  const isEditMode = path === 'edit-listing';
+
   const form = document.querySelector<HTMLFormElement>('#create-listing-form');
 
   const titleInput = document.querySelector<HTMLInputElement>('#listing-title');
@@ -205,9 +320,8 @@ export function initCreateListing(): void {
     return;
   }
 
-  let imageCount = 1;
+  let imageCount = imageFields.querySelectorAll('.image-field').length;
 
-  // Add another image
   addImageButton.addEventListener('click', () => {
     const index = imageCount;
 
@@ -257,11 +371,11 @@ export function initCreateListing(): void {
     `;
 
     imageFields.appendChild(imageField);
-
     imageCount++;
   });
 
   // Remove image
+
   imageFields.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
 
@@ -275,6 +389,7 @@ export function initCreateListing(): void {
   });
 
   // Submit form
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -282,7 +397,7 @@ export function initCreateListing(): void {
     successMessage.classList.add('hidden');
 
     submitButton.disabled = true;
-    submitButton.textContent = 'Creating...';
+    submitButton.textContent = isEditMode ? 'Saving...' : 'Creating...';
 
     const imageInputs = document.querySelectorAll<HTMLInputElement>('input[name="image"]');
 
@@ -294,29 +409,47 @@ export function initCreateListing(): void {
     }));
 
     try {
-      const listing = await createListing({
+      const listingData = {
         title: titleInput.value.trim(),
         description: descriptionInput.value.trim(),
         endsAt: new Date(deadlineInput.value).toISOString(),
         media,
         tags: [categoryInput.value],
-      });
+      };
 
-      successMessage.textContent = 'Listing created successfully!';
+      let savedListing: listing;
+
+      if (isEditMode) {
+        if (!listingId) {
+          throw new Error('Listing ID is missing');
+        }
+
+        savedListing = await updateListing(listingId, listingData);
+      } else {
+        savedListing = await createListing(listingData);
+      }
+
+      successMessage.textContent = isEditMode
+        ? 'Listing updated successfully!'
+        : 'Listing created successfully!';
 
       successMessage.classList.remove('hidden');
 
-      window.location.hash = `#/listing?id=${listing.id}`;
+      if (isEditMode) {
+        window.location.hash = '#/profile';
+      } else {
+        window.location.hash = `#/listing?id=${savedListing.id}`;
+      }
     } catch (error) {
       console.error(error);
 
       errorMessage.textContent =
-        error instanceof Error ? error.message : 'Could not create listing. Please try again.';
+        error instanceof Error ? error.message : 'Could not save listing. Please try again.';
 
       errorMessage.classList.remove('hidden');
 
       submitButton.disabled = false;
-      submitButton.textContent = 'Create listing';
+      submitButton.textContent = isEditMode ? 'Save changes' : 'Create listing';
     }
   });
 }
