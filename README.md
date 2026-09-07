@@ -1,6 +1,6 @@
 # Bidora
 
-**Bidora** is a student-focused auction marketplace built as a front-end web application for the Noroff Semester Project 2 assignment.
+**Bidora** is a modern auction marketplace built as a front-end web application for the Noroff Semester Project 2 assignment. The platform allows users to discover listings, place bids, create and manage auctions, manage their profiles, and save listings to their favorites.
 
 The application allows users to browse auction listings, search and filter products, create and manage their own listings, place bids using virtual credits, manage their profile, and save listings as favorites.
 
