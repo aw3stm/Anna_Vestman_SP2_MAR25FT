@@ -16,7 +16,6 @@ body {
   min-height: 100%;
   font-family: var(--font-primary);
   color: var(--color-text);
-  background-color: var(--color-primary-green);
 }
 
 #app {
@@ -25,7 +24,6 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-primary-green);
 }
 
 h1 {
@@ -36,6 +34,16 @@ h1 {
 
 button {
   cursor: pointer;
+}
+
+.bidora-number-input::-webkit-inner-spin-button,
+.bidora-number-input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.bidora-number-input {
+  appearance: textfield;
 }
 
 @theme {
@@ -114,17 +122,20 @@ button {
 
 @utility bidora-badge {
   display: inline-flex;
+  height: 2.5rem;
+  min-width: 6.5rem;
   align-items: center;
   justify-content: center;
-  padding: 0.55rem 1rem;
+  line-height: 1;
+  text-align: center;
+
+  padding: 0 1rem;
   border-radius: 0.5rem;
   background-color: var(--color-orange-accent);
   color: white;
   font-size: 0.7rem;
   font-weight: 700;
-  line-height: 1;
   letter-spacing: 0.08em;
-  text-align: center;
   text-transform: uppercase;
   box-shadow: 0 4px 10px rgb(0 0 0 / 12%);
   transform: rotate(-6deg);
@@ -144,4 +155,8 @@ button {
   line-height: 1;
   text-align: center;
   text-transform: uppercase;
+}
+
+@utility favorite-filled {
+  font-variation-settings: 'FILL' 1;
 }

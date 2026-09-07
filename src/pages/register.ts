@@ -104,7 +104,10 @@ export function renderRegister(): string {
         <button type="submit" class="bidora-button w-3xs mx-auto block px-6 py-3 hover:bg-hover-btn">
         Create account
         </button>
-          
+        
+          <a href="#/"class="mt-5 block text-center text-sm text-orange-accent hover:underline">
+          Continue without signing in
+          </a>
 
           <p
             id="register-error"

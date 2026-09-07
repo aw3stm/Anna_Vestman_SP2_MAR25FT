@@ -1,3 +1,5 @@
+import { isFavorite } from '../utils/favorites';
+
 export interface listingMedia {
   url: string;
   alt?: string;
@@ -76,6 +78,7 @@ export function renderProductCard(listing: listing): string {
   const currentBid = getCurrentBid(listing);
   const timeRemaining = getRemainingTime(listing.endsAt);
   const isNew = newListing(listing.created);
+  const favorite = isFavorite(listing.id);
 
   return `
   <article class="product-card bidora-card flex overflow-hidden p-0 md:flex-col cursor-pointer"
@@ -83,18 +86,24 @@ export function renderProductCard(listing: listing): string {
   <div class="relative h-48 w-48 shrink-0 overflow-hidden rounded-l-3xl bg-styling md:h-72 md:w-full md:rounded-l-3xl">
   ${
     isNew
-      ? `<span class="absolute left-3 top-3 z-10 md:hidden bidora-badge-mobile">Just in</span>
-    <span class="absolute left-4 top-4 z-10 hidden md:flex bidora-badge">Just in</span>`
+      ? `<span class="absolute left-3 top-3 z-10 md:hidden bidora-badge-mobile">New</span>
+    <span class="absolute left-4 top-4 z-10 hidden md:flex bidora-badge">New</span>`
       : ''
   } 
 
-  <button type="button"
-  aria-label="Add ${listing.title} to favorites"
-  class="absolute right-4 top-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white shadow-md">
-  <span class="material-symbols-outlined">
-  favorite
+ <button
+  type="button"
+  aria-label="${favorite ? 'Remove' : 'Add'} ${listing.title} ${favorite ? 'from' : 'to'} favorites"
+  class="favorite-button absolute right-4 top-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white shadow-md transition-transform hover:scale-105 focus:outline-none"
+  data-favorite-id="${listing.id}"
+>
+  <span
+    class="material-symbols-outlined text-xl ${
+      favorite ? 'favorite-filled text-orange-accent' : 'text-text'
+    }">
+    ${favorite ? 'favorite' : 'favorite_border'}
   </span>
-  </button>
+</button>
 
   <img src="${image}" alt="${altImage}" class="h-full w-full object-contain p-4" />
   </div>

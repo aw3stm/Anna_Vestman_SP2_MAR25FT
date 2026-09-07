@@ -12,267 +12,375 @@ export function renderCreateListing(existingListing?: listing): string {
   const images = existingListing?.media ?? [];
 
   return `
-    <main class="flex-1 bg-white text-text">
+    <main class="relative flex-1 overflow-hidden bg-styling text-text">
 
-      <section class="mx-auto max-w-3xl px-6 py-10 md:px-8 md:py-14">
+      <!-- Background decoration -->
 
-        <div class="mb-8">
-          <h1 class="text-3xl font-bold md:text-4xl">
-            ${isEditMode ? 'Edit listing' : 'Create listing'}
-          </h1>
+      <div
+        class="bidora-glow-orange pointer-events-none absolute -left-32 top-20 h-72 w-72"
+      ></div>
 
-          <p class="mt-2 text-base text-text/70">
-            ${
-              isEditMode
-                ? 'Update your listing and save your changes.'
-                : 'Create a new listing and let the bidding begin.'
-            }
-          </p>
-        </div>
+      <div
+        class="bidora-glow-green pointer-events-none absolute -right-32 bottom-20 h-80 w-80"
+      ></div>
 
-        <form id="create-listing-form" class="space-y-6">
+      <section class="relative z-10 mx-auto max-w-5xl px-6 py-10 md:px-8 md:py-14">
 
-          <!-- Title -->
+        <!-- Page header -->
 
-          <div>
-            <label for="listing-title" class="bidora-label">
-              Title
-            </label>
+        <div class="mb-8 md:mb-10">
 
-            <input
-              type="text"
-              id="listing-title"
-              name="title"
-              required
-              maxlength="100"
-              placeholder="Enter a title"
-              value="${existingListing?.title ?? ''}"
-              class="bidora-input"
-            />
-          </div>
+          <div class="flex items-start justify-between gap-6">
 
-          <!-- Description -->
+            <div>
 
-          <div>
-            <label for="listing-description" class="bidora-label">
-              Description
-            </label>
-
-            <textarea
-              id="listing-description"
-              name="description"
-              required
-              rows="6"
-              placeholder="Describe your item"
-              class="bidora-input resize-y"
-            >${existingListing?.description?.trim() ?? ''}</textarea>
-          </div>
-
-          <!-- Category -->
-
-          <div>
-            <label for="listing-category" class="bidora-label">
-              Category
-            </label>
-
-            <select
-              id="listing-category"
-              name="category"
-              required
-              class="bidora-input"
-            >
-              <option value="">Select a category</option>
-
-              <option
-                value="Fashion"
-                ${existingListing?.tags?.[0] === 'Fashion' ? 'selected' : ''}
+              <p
+                class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-orange-accent"
               >
-                Fashion
-              </option>
+                ${isEditMode ? 'Keep the bidding going' : 'Start the bidding'}
+              </p>
 
-              <option
-                value="Electronics"
-                ${existingListing?.tags?.[0] === 'Electronics' ? 'selected' : ''}
-              >
-                Electronics
-              </option>
+              <h1 class="text-3xl font-bold leading-tight md:text-5xl">
+                ${isEditMode ? 'Edit listing' : 'Create listing'}
+              </h1>
 
-              <option
-                value="Home & Living"
-                ${existingListing?.tags?.[0] === 'Home & Living' ? 'selected' : ''}
-              >
-                Home & Living
-              </option>
-
-              <option
-                value="Collectibles"
-                ${existingListing?.tags?.[0] === 'Collectibles' ? 'selected' : ''}
-              >
-                Collectibles
-              </option>
-            </select>
-          </div>
-
-          <!-- Deadline -->
-
-          <div>
-            <label for="listing-deadline" class="bidora-label">
-              Deadline
-            </label>
-
-            <input
-              type="datetime-local"
-              id="listing-deadline"
-              name="deadline"
-              required
-              value="${deadlineValue}"
-              class="bidora-input"
-            />
-          </div>
-
-          <!-- Images -->
-
-          <div>
-            <label class="bidora-label">
-              Images
-            </label>
-
-            <div id="image-fields" class="space-y-4">
-
-              ${
-                images.length > 0
-                  ? images
-                      .map(
-                        (image, index) => `
-                          <div class="image-field rounded-xl border border-gray-200 p-4">
-
-                            <label
-                              for="listing-image-${index}"
-                              class="text-sm font-medium text-text"
-                            >
-                              Image URL
-                            </label>
-
-                            <input
-                              type="url"
-                              id="listing-image-${index}"
-                              name="image"
-                              required
-                              value="${image.url}"
-                              placeholder="https://example.com/image.jpg"
-                              class="bidora-input mt-2"
-                            />
-
-                            <label
-                              for="listing-image-alt-${index}"
-                              class="mt-4 block text-sm font-medium text-text"
-                            >
-                              Image description
-                            </label>
-
-                            <input
-                              type="text"
-                              id="listing-image-alt-${index}"
-                              name="imageAlt"
-                              required
-                              value="${image.alt ?? ''}"
-                              placeholder="Describe the image"
-                              class="bidora-input mt-2"
-                            />
-
-                            ${
-                              index > 0
-                                ? `
-                                  <button
-                                    type="button"
-                                    class="remove-image mt-3 cursor-pointer text-sm text-delete-btn hover:underline"
-                                  >
-                                    Remove image
-                                  </button>
-                                `
-                                : ''
-                            }
-
-                          </div>
-                        `,
-                      )
-                      .join('')
-                  : `
-                    <div class="image-field rounded-xl border border-gray-200 p-4">
-
-                      <label
-                        for="listing-image-0"
-                        class="text-sm font-medium text-text"
-                      >
-                        Image URL
-                      </label>
-
-                      <input
-                        type="url"
-                        id="listing-image-0"
-                        name="image"
-                        required
-                        placeholder="https://example.com/image.jpg"
-                        class="bidora-input mt-2"
-                      />
-
-                      <label
-                        for="listing-image-alt-0"
-                        class="mt-4 block text-sm font-medium text-text"
-                      >
-                        Image description
-                      </label>
-
-                      <input
-                        type="text"
-                        id="listing-image-alt-0"
-                        name="imageAlt"
-                        required
-                        placeholder="Describe the image"
-                        class="bidora-input mt-2"
-                      />
-
-                    </div>
-                  `
-              }
+              <p class="mt-3 max-w-xl text-base leading-6 text-text/70 md:text-lg">
+                ${
+                  isEditMode
+                    ? 'Update your listing and keep it looking its best.'
+                    : "Turn something you love into someone else's next find."
+                }
+              </p>
 
             </div>
 
-            <button
-              type="button"
-              id="add-image-btn"
-              class="mt-4 cursor-pointer text-sm font-semibold text-orange-accent hover:underline"
+            <div
+              class="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-orange-accent text-white shadow-md sm:flex"
             >
-              + Add another image
-            </button>
+              <span class="material-symbols-outlined text-3xl">
+                ${isEditMode ? 'edit' : 'add'}
+              </span>
+            </div>
+
           </div>
 
-          <!-- Messages -->
+        </div>
 
-          <p
-            id="create-listing-error"
-            class="hidden text-sm text-delete-btn"
-            aria-live="polite"
-          ></p>
+        <!-- Form card -->
 
-          <p
-            id="create-listing-success"
-            class="hidden text-sm text-green-700"
-            aria-live="polite"
-          ></p>
+        <div
+          class="rounded-3xl bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.10)] md:p-10"
+        >
 
-          <!-- Submit -->
+          <form id="create-listing-form" class="space-y-7">
 
-          <button
-            type="submit"
-            id="create-listing-btn"
-            class="bidora-button mx-auto block w-3xs px-4 py-3 hover:bg-hover-btn"
-          >
-            ${isEditMode ? 'Save changes' : 'Create listing'}
-          </button>
+            <!-- Title -->
 
-        </form>
+            <div>
+
+              <label for="listing-title" class="bidora-label">
+                Title
+              </label>
+
+              <input
+                type="text"
+                id="listing-title"
+                name="title"
+                required
+                maxlength="100"
+                placeholder="Enter a title"
+                value="${existingListing?.title ?? ''}"
+                class="bidora-input"
+              />
+
+            </div>
+
+            <!-- Description -->
+
+            <div>
+
+              <label for="listing-description" class="bidora-label">
+                Description
+              </label>
+
+              <textarea
+                id="listing-description"
+                name="description"
+                required
+                rows="6"
+                placeholder="Describe your item"
+                class="bidora-input resize-y"
+              >${existingListing?.description?.trim() ?? ''}</textarea>
+
+            </div>
+
+            <!-- Category + Deadline -->
+
+            <div class="grid gap-7 md:grid-cols-2">
+
+              <!-- Category -->
+
+              <div>
+
+                <label for="listing-category" class="bidora-label">
+                  Category
+                </label>
+
+                <div class="relative">
+
+                  <select
+                    id="listing-category"
+                    name="category"
+                    required
+                    class="bidora-input w-full cursor-pointer appearance-none pr-10"
+                  >
+
+                    <option value="">
+                      Select a category
+                    </option>
+
+                    <option
+                      value="Fashion"
+                      ${existingListing?.tags?.[0] === 'Fashion' ? 'selected' : ''}
+                    >
+                      Fashion
+                    </option>
+
+                    <option
+                      value="Electronics"
+                      ${existingListing?.tags?.[0] === 'Electronics' ? 'selected' : ''}
+                    >
+                      Electronics
+                    </option>
+
+                    <option
+                      value="Home & Living"
+                      ${existingListing?.tags?.[0] === 'Home & Living' ? 'selected' : ''}
+                    >
+                      Home & Living
+                    </option>
+
+                    <option
+                      value="Collectibles"
+                      ${existingListing?.tags?.[0] === 'Collectibles' ? 'selected' : ''}
+                    >
+                      Collectibles
+                    </option>
+
+                  </select>
+
+                  <span
+                    class="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xl text-text/60"
+                  >
+                    expand_more
+                  </span>
+
+                </div>
+
+              </div>
+
+              <!-- Deadline -->
+
+              <div>
+
+                <label for="listing-deadline" class="bidora-label">
+                  Deadline
+                </label>
+
+                <input
+                  type="datetime-local"
+                  id="listing-deadline"
+                  name="deadline"
+                  required
+                  value="${deadlineValue}"
+                  class="bidora-input"
+                />
+
+              </div>
+
+            </div>
+
+            <!-- Images -->
+
+            <div>
+
+              <div class="mb-3 flex items-center justify-between gap-4">
+
+                <label class="bidora-label mb-0">
+                  Images
+                </label>
+
+                <span class="text-xs text-text/50">
+                  Add at least one image
+                </span>
+
+              </div>
+
+              <div id="image-fields" class="space-y-4">
+
+                ${
+                  images.length > 0
+                    ? images
+                        .map(
+                          (image, index) => `
+                            <div
+                              class="image-field rounded-2xl border border-gray-200 bg-styling/40 p-5"
+                            >
+
+                              <div class="flex items-center justify-between gap-4">
+
+                                <p class="text-sm font-semibold">
+                                  Image ${index + 1}
+                                </p>
+
+                                ${
+                                  index > 0
+                                    ? `
+                                      <button
+                                        type="button"
+                                        class="remove-image cursor-pointer text-sm font-medium text-delete-btn hover:underline"
+                                      >
+                                        Remove
+                                      </button>
+                                    `
+                                    : ''
+                                }
+
+                              </div>
+
+                              <label
+                                for="listing-image-${index}"
+                                class="mt-4 block text-sm font-medium text-text"
+                              >
+                                Image URL
+                              </label>
+
+                              <input
+                                type="url"
+                                id="listing-image-${index}"
+                                name="image"
+                                required
+                                value="${image.url}"
+                                placeholder="https://example.com/image.jpg"
+                                class="bidora-input mt-2"
+                              />
+
+                              <label
+                                for="listing-image-alt-${index}"
+                                class="mt-5 block text-sm font-medium text-text"
+                              >
+                                Image description
+                              </label>
+
+                              <input
+                                type="text"
+                                id="listing-image-alt-${index}"
+                                name="imageAlt"
+                                required
+                                value="${image.alt ?? ''}"
+                                placeholder="Describe the image"
+                                class="bidora-input mt-2"
+                              />
+
+                            </div>
+                          `,
+                        )
+                        .join('')
+                    : `
+                      <div
+                        class="image-field rounded-2xl border border-gray-200 bg-styling/40 p-5"
+                      >
+
+                        <p class="text-sm font-semibold">
+                          Image 1
+                        </p>
+
+                        <label
+                          for="listing-image-0"
+                          class="mt-4 block text-sm font-medium text-text"
+                        >
+                          Image URL
+                        </label>
+
+                        <input
+                          type="url"
+                          id="listing-image-0"
+                          name="image"
+                          required
+                          placeholder="https://example.com/image.jpg"
+                          class="bidora-input mt-2"
+                        />
+
+                        <label
+                          for="listing-image-alt-0"
+                          class="mt-5 block text-sm font-medium text-text"
+                        >
+                          Image description
+                        </label>
+
+                        <input
+                          type="text"
+                          id="listing-image-alt-0"
+                          name="imageAlt"
+                          required
+                          placeholder="Describe the image"
+                          class="bidora-input mt-2"
+                        />
+
+                      </div>
+                    `
+                }
+
+              </div>
+
+              <button
+                type="button"
+                id="add-image-btn"
+                class="mt-4 flex cursor-pointer items-center gap-1 text-sm font-semibold text-orange-accent"
+              >
+                <span class="material-symbols-outlined text-lg">
+                  add
+                </span>
+
+                <span class="hover:underline">Add another image</span>
+              </button>
+
+            </div>
+
+            <!-- Messages -->
+
+            <p
+              id="create-listing-error"
+              class="hidden rounded-lg bg-red-50 px-4 py-3 text-sm text-delete-btn"
+              aria-live="polite"
+            ></p>
+
+            <p
+              id="create-listing-success"
+              class="hidden rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700"
+              aria-live="polite"
+            ></p>
+
+            <!-- Submit -->
+
+            <div class="border-t border-gray-100 pt-7">
+
+              <button
+                type="submit"
+                id="create-listing-btn"
+                class="bidora-button mx-auto block w-full px-6 py-3.5 text-base hover:bg-hover-btn sm:w-3xs"
+              >
+                ${isEditMode ? 'Save changes' : 'Create listing'}
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
       </section>
+
     </main>
   `;
 }
@@ -327,12 +435,27 @@ export function initCreateListing(): void {
 
     const imageField = document.createElement('div');
 
-    imageField.className = 'image-field rounded-xl border border-gray-200 p-4';
+    imageField.className = 'image-field rounded-2xl border border-gray-200 bg-styling/40 p-5';
 
     imageField.innerHTML = `
+      <div class="flex items-center justify-between gap-4">
+
+        <p class="text-sm font-semibold">
+          Image ${index + 1}
+        </p>
+
+        <button
+          type="button"
+          class="remove-image cursor-pointer text-sm font-medium text-delete-btn hover:underline"
+        >
+          Remove
+        </button>
+
+      </div>
+
       <label
         for="listing-image-${index}"
-        class="text-sm font-medium text-text"
+        class="mt-4 block text-sm font-medium text-text"
       >
         Image URL
       </label>
@@ -348,7 +471,7 @@ export function initCreateListing(): void {
 
       <label
         for="listing-image-alt-${index}"
-        class="mt-4 block text-sm font-medium text-text"
+        class="mt-5 block text-sm font-medium text-text"
       >
         Image description
       </label>
@@ -361,13 +484,6 @@ export function initCreateListing(): void {
         placeholder="Describe the image"
         class="bidora-input mt-2"
       />
-
-      <button
-        type="button"
-        class="remove-image mt-3 cursor-pointer text-sm text-delete-btn hover:underline"
-      >
-        Remove image
-      </button>
     `;
 
     imageFields.appendChild(imageField);

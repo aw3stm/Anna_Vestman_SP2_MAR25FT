@@ -14,19 +14,19 @@ export function renderLogin(): string {
         Sign in to your Bidora account and discover
         <span class="relative inline-block">
         something worth bidding on.
-    <svg
-      class="absolute -bottom-1 left-38 h-2 w-20 -translate-x-1/2 text-orange-accent"
-      viewBox="0 0 80 8"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
-      <svg xmlns="http://www.w3.org/2000/svg" width="74" height="10" viewBox="0 0 74 10" fill="none">
-      <path d="M0.50006 8.62275C17.5172 -2.58736 76.8471 16.1587 72.6529 0.500142" 
-      stroke="currentColor" 
-      stroke-linecap="round"/>
-    </svg>
-    </svg>
-  </span>
-</p>
+        <svg
+          class="absolute -bottom-1 left-38 h-2 w-20 -translate-x-1/2 text-orange-accent"
+          viewBox="0 0 80 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <svg xmlns="http://www.w3.org/2000/svg" width="74" height="10" viewBox="0 0 74 10" fill="none">
+          <path d="M0.50006 8.62275C17.5172 -2.58736 76.8471 16.1587 72.6529 0.500142" 
+          stroke="currentColor" 
+          stroke-linecap="round"/>
+        </svg>
+        </svg>
+      </span>
+    </p>
 
           <form id="login-form" class="mt-8 space-y-5">
           <div>
@@ -41,9 +41,13 @@ export function renderLogin(): string {
           </div>
 
           <div class="text-right">
-          <a href="#" class="text-sm text-orange-accent hover:underline">Forgot password?</a></div>
+          <p class="cursor-pointer text-sm text-orange-accent hover:underline">Forgot password?</p></div>
 
           <button type="submit" class="bidora-button w-3xs mx-auto block px-6 py-3 hover:bg-hover-btn">Sign in</button>
+
+          <a href="#/"class="mt-5 block text-center text-sm text-orange-accent hover:underline">
+          Continue without signing in
+          </a>
 
           <p id="login-error" class="hidden text-center text-sm text-delete-btn"></p>
           </form>

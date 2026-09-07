@@ -102,6 +102,13 @@ export function renderNavbar({
             ? `
               <div class="flex items-center gap-2">
 
+              <a href="#/favorites"
+              aria-label="Favorites"
+              class="flex h-10 w-10 items-center justify-center">
+              <span class="favorite-filled material-symbols-outlined text-xl text-text transition-colors hover:text-orange-accent">
+              favorite
+              </span></a>
+
                 <img
                   src="${creditIcon}"
                   alt=""

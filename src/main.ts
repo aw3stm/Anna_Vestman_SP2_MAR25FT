@@ -10,6 +10,7 @@ import { initLogin } from './pages/login';
 import { getProfile, getToken } from './api/auth';
 import { initCreateListing } from './pages/createListing';
 import { initProfile } from './pages/profile';
+import { initFavorites } from './pages/favorites';
 
 async function renderApp() {
   const app = document.querySelector<HTMLDivElement>('#app');
@@ -70,6 +71,10 @@ async function renderApp() {
       initProfile();
     }
   }
+  if (path === 'favorites') {
+    initFavorites();
+  }
+
   if (path === 'register') {
     initRegister();
   }

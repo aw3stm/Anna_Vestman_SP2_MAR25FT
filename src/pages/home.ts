@@ -1,8 +1,9 @@
-import { getListings } from '../api/listings';
+import { getListings, type ListingSort } from '../api/listings';
 import retroJacket from '../assets/Retro_Jacket.png';
 import { renderProductCard } from '../components/productCard';
 import type { listing } from '../components/productCard';
 import scrollDown from '../assets/bouncing-circle.svg';
+import { toggleFavorite } from '../utils/favorites';
 
 let products: listing[] = [];
 
@@ -12,7 +13,6 @@ export async function renderHome(): Promise<string> {
   return `
     <main class="flex-1 bg-white text-text">
 
-      <!-- Search + categories -->
       <section class="bg-white">
         <div class="mx-auto max-w-6xl px-6 py-8 md:px-8">
 
@@ -35,11 +35,11 @@ export async function renderHome(): Promise<string> {
             </div>
           </div>
 
-          <!-- Popular categories -->
+          
           <section id="categories-section">
             <div class="mt-8">
 
-              <h2 class="text-xl font-medium md:text-2xl">
+              <h2 class="text-lg font-medium md:text-xl">
                 Popular categories
               </h2>
 
@@ -47,7 +47,7 @@ export async function renderHome(): Promise<string> {
                 class="mt-6 grid grid-cols-4 gap-2 border-b border-gray-200 pb-6"
               >
 
-                <!-- Fashion -->
+              
                 <button
                   type="button"
                   class="category-button group flex cursor-pointer flex-col items-center gap-2 text-center"
@@ -227,12 +227,34 @@ export async function renderHome(): Promise<string> {
             </button>
           </div>
 
+
+        <div class="flex items-center gap-4 justify-between">
           <h2
             id="results-title"
-            class="text-xl font-semibold md:text-2xl"
+            class="text-lg font-semibold md:text-xl"
           >
             Trending
           </h2>
+
+          <div class="relative">
+    <select
+      id="sort-select"
+      class="cursor-pointer appearance-none rounded-lg border border-gray-200 bg-white px-3 py-2 pr-10 text-sm outline-none focus:border-orange-accent md:text-base"
+    >
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+      <option value="ending-soon">Ending soon</option>
+      <option value="ending-last">Ending last</option>
+    </select>
+
+    <span
+      class="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xl text-text/70"
+    >
+      expand_more
+    </span>
+  </div>
+</label>
+        </div>
 
           <div
             id="product-grid"
@@ -250,28 +272,23 @@ export async function renderHome(): Promise<string> {
 
 export function initHomeSearch(): void {
   const searchInput = document.querySelector<HTMLInputElement>('#search-input');
-
   const productGrid = document.querySelector<HTMLDivElement>('#product-grid');
-
   const resultsTitle = document.querySelector<HTMLHeadingElement>('#results-title');
-
+  const sortSelect = document.querySelector<HTMLSelectElement>('#sort-select');
   const categoriesSection = document.querySelector<HTMLElement>('#categories-section');
-
   const heroSection = document.querySelector<HTMLElement>('#hero-section');
-
   const categoryButtons = document.querySelectorAll<HTMLButtonElement>('.category-button');
-
   const backHome = document.querySelector<HTMLElement>('#back-home');
-
   const backHomeBtn = document.querySelector<HTMLButtonElement>('#back-home-btn');
 
-  if (!searchInput || !productGrid || !resultsTitle) {
+  if (!searchInput || !productGrid || !resultsTitle || !sortSelect) {
     return;
   }
 
   const input = searchInput;
   const grid = productGrid;
   const title = resultsTitle;
+  const sort = sortSelect;
 
   let selectedCategory = '';
 
@@ -285,7 +302,7 @@ export function initHomeSearch(): void {
     Collectibles: ['collectibles', 'collectible', 'vintage', 'collection', 'designers', 'art'],
   };
 
-  function updateResults(): void {
+  async function updateResults(): Promise<void> {
     const searchTerm = input.value.trim().toLowerCase();
 
     const filteredProducts = products.filter((product) => {
@@ -353,6 +370,17 @@ export function initHomeSearch(): void {
     selectedCategory = '';
     updateResults();
   });
+
+  sort.addEventListener('change', async () => {
+    const selectedSort = sort.value as ListingSort;
+
+    try {
+      products = await getListings(selectedSort);
+      updateResults();
+    } catch (error) {
+      console.error(error);
+    }
+  });
 }
 
 export function initHomeCards(): void {
@@ -364,6 +392,34 @@ export function initHomeCards(): void {
 
   productGrid.addEventListener('click', (event) => {
     const target = event.target as HTMLElement;
+
+    const favoriteButton = target.closest<HTMLButtonElement>('.favorite-button');
+
+    if (favoriteButton) {
+      const listingId = favoriteButton.dataset.favoriteId;
+
+      if (!listingId) {
+        return;
+      }
+
+      const favorite = toggleFavorite(listingId);
+      const icon = favoriteButton.querySelector<HTMLElement>('.material-symbols-outlined');
+
+      if (icon) {
+        icon.textContent = favorite ? 'favorite' : 'favorite_border';
+        icon.classList.toggle('favorite-filled', favorite);
+        icon.classList.toggle('text-orange-accent', favorite);
+        icon.classList.toggle('text-text', !favorite);
+      }
+
+      favoriteButton.setAttribute(
+        'aria-label',
+        `${favorite ? 'Remove' : 'Add'} listing ${favorite ? 'from' : 'to'} favorites`,
+      );
+
+      return;
+    }
+
     const card = target.closest<HTMLElement>('.product-card');
 
     if (!card) {

@@ -6,6 +6,7 @@ import { renderRegister } from './pages/register';
 import { renderListingDetails } from './pages/listingDetails';
 import { renderCreateListing } from './pages/createListing';
 import { renderProfile } from './pages/profile';
+import { renderFavorites } from './pages/favorites';
 
 export async function renderPage(): Promise<string> {
   const hash = window.location.hash.replace('#/', '');
@@ -43,9 +44,11 @@ export async function renderPage(): Promise<string> {
       }
 
       const listing = await getListingById(listingId);
-
       return renderCreateListing(listing);
     }
+
+    case 'favorites':
+      return renderFavorites();
 
     case 'profile':
       if (!getToken()) {

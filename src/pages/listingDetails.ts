@@ -2,6 +2,7 @@ import { getApiKey, getToken, getCurrentProfile } from '../api/auth';
 import { getListingById, placeBid } from '../api/listings';
 import { updateNavbarCredits } from '../components/navbar';
 import type { listing } from '../components/productCard';
+import { isFavorite, toggleFavorite } from '../utils/favorites';
 
 function getCurrentBid(product: listing): number {
   if (!product.bids?.length) {
@@ -38,6 +39,7 @@ export function renderListingDetails(product: listing): string {
   const currentBid = getCurrentBid(product);
   const timeLeft = formatTimeLeft(product.endsAt);
   const isLoggedIn = !!getToken();
+  const favorite = isFavorite(product.id);
 
   return `
     <main class="flex-1 bg-white text-text">
@@ -61,8 +63,10 @@ export function renderListingDetails(product: listing): string {
 
     <button type="button"
     aria-label="Add ${product.title} to favorites"
-    class="absolute right-4 top-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white shadow-md">
-    <span class="material-symbols-outlined">favorite
+    class="favorite-button absolute right-4 top-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white shadow-md transition-transform hover:scale-105 focus:outline-none"
+    data-favorite-id="${product.id}">
+    <span class="material-symbols-outlined text-xl ${favorite ? 'favorite-filled text-orange-accent' : 'text-text'}">
+    ${favorite ? 'favorite' : 'favorite_border'}
     </span>
     </button>
     </div>
@@ -178,23 +182,49 @@ export function renderListingDetails(product: listing): string {
   </label>
 
   <div class="flex items-center gap-3">
-    <div class="relative flex-1">
-      <input
-        type="number"
-        id="bid-amount"
-        name="bidAmount"
-        min="${currentBid + 1}"
-        placeholder="Enter your bid"
-        required
-        class="h-12 w-full rounded-lg border border-gray-300 px-4 pr-20 outline-none focus:border-orange-accent"
-      />
+   <div class="relative flex-1">
+  <input
+    type="number"
+    id="bid-amount"
+    name="bidAmount"
+    min="${currentBid + 1}"
+    placeholder="Enter your bid"
+    required
+    class="bidora-number-input h-12 w-full rounded-lg border border-gray-300 px-4 pr-24 outline-none focus:border-orange-accent"
+  />
 
-      <span
-        class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text/60"
-      >
-        credits
+  <div
+    class="absolute right-16 top-1/2 flex -translate-y-1/2 flex-col overflow-hidden rounded-sm bg-gray-100"
+  >
+    <button
+      type="button"
+      id="bid-increase"
+      aria-label="Increase bid"
+      class="flex h-6 w-6 cursor-pointer items-center justify-center text-text/60 transition-colors hover:bg-gray-200 hover:text-text"
+    >
+      <span class="material-symbols-outlined text-base leading-none">
+        keyboard_arrow_up
       </span>
-    </div>
+    </button>
+
+    <button
+      type="button"
+      id="bid-decrease"
+      aria-label="Decrease bid"
+      class="flex h-6 w-6 cursor-pointer items-center justify-center text-text/60 transition-colors hover:bg-gray-200 hover:text-text"
+    >
+      <span class="material-symbols-outlined text-base leading-none">
+        keyboard_arrow_down
+      </span>
+    </button>
+  </div>
+
+  <span
+    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text/60"
+  >
+    credits
+  </span>
+</div>
 
     <button
       type="submit"
@@ -268,6 +298,10 @@ export function initListingDetails(productId: string): void {
 
   const bidForm = document.querySelector<HTMLFormElement>('#bid-form');
   const bidInput = document.querySelector<HTMLInputElement>('#bid-amount');
+  const increaseBidButton = document.querySelector<HTMLButtonElement>('#bid-increase');
+  const favoriteButton = document.querySelector<HTMLButtonElement>('.favorite-button');
+
+  const decreaseBidButton = document.querySelector<HTMLButtonElement>('#bid-decrease');
   const bidMessage = document.querySelector<HTMLParagraphElement>('#bid-msg');
 
   const token = getToken();
@@ -276,6 +310,46 @@ export function initListingDetails(productId: string): void {
   if (!bidForm || !bidInput || !bidMessage) {
     return;
   }
+
+  favoriteButton?.addEventListener('click', () => {
+    const favorite = toggleFavorite(productId);
+
+    const icon = favoriteButton.querySelector<HTMLElement>('.material-symbols-outlined');
+
+    if (icon) {
+      icon.textContent = favorite ? 'favorite' : 'favorite_border';
+
+      icon.classList.toggle('favorite-filled', favorite);
+
+      icon.classList.toggle('text-orange-accent', favorite);
+
+      icon.classList.toggle('text-text', !favorite);
+    }
+
+    favoriteButton.setAttribute(
+      'aria-label',
+      `${favorite ? 'Remove' : 'Add'} ${favorite ? 'from' : 'to'} favorites`,
+    );
+  });
+
+  increaseBidButton?.addEventListener('click', () => {
+    const currentValue = Number(bidInput.value);
+    const minValue = Number(bidInput.min);
+
+    bidInput.value = String(Math.max(currentValue || minValue, minValue) + 1);
+  });
+
+  decreaseBidButton?.addEventListener('click', () => {
+    const currentValue = Number(bidInput.value);
+    const minValue = Number(bidInput.min);
+
+    if (!currentValue) {
+      bidInput.value = String(minValue);
+      return;
+    }
+
+    bidInput.value = String(Math.max(currentValue - 1, minValue));
+  });
 
   bidForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -349,7 +423,7 @@ export function initListingDetails(productId: string): void {
     } catch (error) {
       console.error(error);
 
-      bidMessage.textContent = 'Could not place bid. Please try again.';
+      bidMessage.textContent = "Can't place bid on your own listing. Sure you want to sell it?";
       bidMessage.classList.remove('hidden');
     }
   });

@@ -15,12 +15,37 @@ interface ListingResponse {
   };
 }
 
-export async function getListings(): Promise<listing[]> {
-  const response = await fetch(`${API_URL}/auction/listings?_bids=true&_active=true`);
+export type ListingSort = 'newest' | 'oldest' | 'ending-soon' | 'ending-last';
+
+export async function getListings(sortBy: ListingSort = 'newest'): Promise<listing[]> {
+  let sort = 'created';
+  let sortOrder = 'desc';
+
+  if (sortBy === 'oldest') {
+    sort = 'created';
+    sortOrder = 'asc';
+  }
+
+  if (sortBy === 'ending-soon') {
+    sort = 'endsAt';
+    sortOrder = 'asc';
+  }
+
+  if (sortBy === 'ending-last') {
+    sort = 'endsAt';
+    sortOrder = 'desc';
+  }
+
+  const response = await fetch(
+    `${API_URL}/auction/listings?_bids=true&_active=true&sort=${sort}&sortOrder=${sortOrder}`,
+  );
+
   if (!response.ok) {
     throw new Error('Failed to fetch listings');
   }
+
   const data: ListingResponse = await response.json();
+
   return data.data;
 }
 
