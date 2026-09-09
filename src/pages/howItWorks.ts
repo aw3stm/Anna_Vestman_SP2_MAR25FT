@@ -1,6 +1,6 @@
 import image1 from '../assets/How_it_works/takePhoto.svg';
 import image2 from '../assets/How_it_works/createListing.svg';
-import image3 from '../assets/How_it_works/SendItem.svg';
+import image3 from '../assets/How_it_works/sendItem.svg';
 import image4 from '../assets/How_it_works/getCredits.svg';
 import image5 from '../assets/How_it_works/happyCustomer.svg';
 
