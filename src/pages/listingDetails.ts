@@ -190,7 +190,7 @@ export function renderListingDetails(product: listing): string {
     min="${currentBid + 1}"
     placeholder="Enter your bid"
     required
-    class="bidora-number-input h-12 w-full rounded-lg border border-gray-300 px-4 pr-24 outline-none focus:border-orange-accent"
+    class="bidora-number-input h-12 w-full rounded-lg border border-gray-300 px-4 pr-24 outline-none bidora-input"
   />
 
   <div

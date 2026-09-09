@@ -77,7 +77,18 @@ export async function renderProfile(): Promise<string> {
             </button>
           </div>
 
-          <!-- Stats -->
+            <section class="mt-8 max-w-xl rounded-2xl bg-styling/50 p-6 shadow-md">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold">
+              About me
+            </h2>
+          </div>
+
+          <p class="whitespace-pre-line mt text-sm md:text-base leading-relaxed text-text/70">
+            ${profile.bio || 'No bio added yet.'}
+          </p>
+        </section>
+        
           <div class="mt-8 grid grid-cols-3 border-t border-gray-200 pt-6 text-center">
             <div>
               <p class="text-2xl font-bold">
@@ -108,21 +119,9 @@ export async function renderProfile(): Promise<string> {
           </div>
         </div>
 
-        <!-- About -->
-        <section class="mt-8 max-w-xl rounded-2xl bg-styling p-6 shadow-md">
-          <div class="flex items-center justify-between">
-            <h2 class="text-xl font-bold">
-              About me
-            </h2>
-          </div>
-
-          <p class="whitespace-pre-line mt text-sm md:text-base leading-relaxed text-text/70">
-            ${profile.bio || 'No bio added yet.'}
-          </p>
-        </section>
-
+      
     <section class="mt-8">
-  <div class="flex border-b border-gray-200">
+    <div class="flex border-b border-gray-200">
     <button
       type="button"
       id="my-listings-tab"
@@ -138,7 +137,7 @@ export async function renderProfile(): Promise<string> {
     </button>
   </div>
 
-  <div id="profile-listings" class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+  <div id="profile-listings" class="mt-5 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     ${listings
       .slice(0, 4)
       .map((listing) => renderProfileProdCard(listing, true))

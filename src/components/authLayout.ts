@@ -12,11 +12,11 @@ interface authLayoutProps {
 
 export function renderAuthLayout({ formContent, topLink }: authLayoutProps): string {
   return `
-  <main class="hidden md:block bg-white">
+  <main class="hidden min-h-screen flex-col md:flex bg-white">
 
- <section class="mx-auto flex max-w-7xl items-stretch">
+ <section class="flex w-full flex-1 items-stretch">
 
-    <div class="relative min-h-150 w-1/2 overflow-hidden">
+    <div class="relative w-1/2 overflow-hidden">
       <img
         src="${desktopLoginImg}"
         alt=""
@@ -34,7 +34,7 @@ export function renderAuthLayout({ formContent, topLink }: authLayoutProps): str
       </h1>
     </div>
 
-    <div class="flex w-1/2 flex-col bg-white">
+    <div class="flex min-h-150 w-1/2 flex-col bg-white">
 
       <div class="flex justify-end px-10 py-8 text-sm">
         ${topLink}
@@ -53,7 +53,7 @@ export function renderAuthLayout({ formContent, topLink }: authLayoutProps): str
 </main>
 
 
-    <! ===== Mobile ====== >
+
 
     <main class="flex min-h-screen flex-col bg-styling md:hidden">
     <div class="relative flex min-h-screen flex-col overflow-hidden">
@@ -62,7 +62,7 @@ export function renderAuthLayout({ formContent, topLink }: authLayoutProps): str
     <div class="absolute bidora-glow-green -left-20 top-32 h-62.5 w-62.5"></div>
 
 
-    <! ==== Glasses ==== >
+   
     <div class="absolute z-10 left-[32%] top-[18%] rotate-45">
         <span class="absolute h-1.25 w-1.25 rotate-180 bg-orange-accent/70"></span>
         <span class="absolute left-1.75 h-1.25 w-1.25 rotate-180 bg-orange-accent/70"></span>

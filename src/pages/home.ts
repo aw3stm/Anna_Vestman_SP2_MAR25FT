@@ -68,7 +68,7 @@ export async function renderHome(): Promise<string> {
                   </span>
                 </button>
 
-                <!-- Electronics -->
+                
                 <button
                   type="button"
                   class="category-button group flex cursor-pointer flex-col items-center gap-2 text-center"
@@ -89,7 +89,7 @@ export async function renderHome(): Promise<string> {
                   </span>
                 </button>
 
-                <!-- Home & Living -->
+                
                 <button
                   type="button"
                   class="category-button group flex cursor-pointer flex-col items-center gap-2 text-center"
@@ -110,7 +110,7 @@ export async function renderHome(): Promise<string> {
                   </span>
                 </button>
 
-                <!-- Collectibles -->
+                
                 <button
                   type="button"
                   class="category-button group flex cursor-pointer flex-col items-center gap-2 text-center"
@@ -181,7 +181,7 @@ export async function renderHome(): Promise<string> {
               <div class="relative shrink-0">
 
                <span class="bidora-badge absolute -right-8 top-3 z-10 h-10 min-w-24 shadow-md md:right-0 md:top-6">
-                New listing
+                <p>New listing</p>
               </span>
 
                 <img

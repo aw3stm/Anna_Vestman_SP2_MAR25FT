@@ -32,7 +32,7 @@ export function renderFooter(): string {
 
               <p class="mt-1 text-lg">
                 Bid. Discover.
-                <span class="text-orange-accent">Win.</span>
+                <span class="text-orange-accent font-bold">Win.</span>
               </p>
 
               <!-- Social icons -->

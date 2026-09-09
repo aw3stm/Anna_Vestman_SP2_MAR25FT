@@ -100,32 +100,38 @@ export function renderNavbar({
         ${
           isLoggedIn
             ? `
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-3">
 
               <a href="#/favorites"
               aria-label="Favorites"
-              class="flex h-10 w-10 items-center justify-center">
-              <span class="favorite-filled material-symbols-outlined text-xl text-text transition-colors hover:text-orange-accent">
+              class="flex h-9 w-9 shrink-0 items-center justify-center">
+              <span class="favorite-filled material-symbols-outlined text-2xl text-text transition-colors hover:text-orange-accent">
               favorite
               </span></a>
 
+                <div class="flex items-center gap-1.5">
                 <img
                   src="${creditIcon}"
                   alt=""
+                  class="h-8 w-8 shrink-0"
                 />
 
-                <span id="navbar-credits" class="text-text font-medium md:text-lg">
-                  ${credits.toLocaleString()} credits
+                <span id="navbar-credits" 
+                class="text-sm text-text font-medium md:text-lg">
+                <span class="md:hidden"> ${credits.toLocaleString()}</span>
+                <span class="hidden md:inline"> ${credits.toLocaleString()} credits</span>
                 </span>
-
+                </div>
+                
                 <a
                   href="#/profile"
                   aria-label="Profile"
+                  class="shrink-0"
                 >
                   <img
                     src="${avatar}"
                     alt="Profile"
-                    class="h-10 w-10 rounded-full object-cover"
+                    class="h-9 w-9 rounded-full object-cover md:h-10 md:w-10"
                   />
                 </a>
 
@@ -133,7 +139,7 @@ export function renderNavbar({
                   type="button"
                   id="logout-btn"
                   aria-label="Log out"
-                  class="ml-2 cursor-pointer"
+                  class="ml-1 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center"
                 >
                   <img
                     src="${logoutIcon}"

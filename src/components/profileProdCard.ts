@@ -98,7 +98,7 @@ export function renderProfileProdCard(listing: listing, showActions = false): st
 
                 <button
                   type="button"
-                  class="delete-listing-button flex-1 rounded-lg bg-orange-accent px-3 py-2 text-sm font-semibold text-white hover:bg-hover-btn"
+                  class="delete-listing-button flex-1 rounded-lg bg-orange-accent px-3 py-2 text-sm font-semibold text-white hover:bg-orange-hover"
                   data-delete-id="${listing.id}"
                 >
                   <span class="material-symbols-outlined mr-1 align-middle text-base">

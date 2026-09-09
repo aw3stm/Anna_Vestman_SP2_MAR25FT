@@ -83,7 +83,7 @@ export function renderProductCard(listing: listing): string {
   return `
   <article class="product-card bidora-card flex overflow-hidden p-0 md:flex-col cursor-pointer"
   data-id="${listing.id}">
-  <div class="relative h-48 w-48 shrink-0 overflow-hidden rounded-l-3xl bg-styling md:h-72 md:w-full md:rounded-l-3xl">
+  <div class="relative h-48 w-48 shrink-0 overflow-hidden rounded-xl bg-styling/60 md:h-72 md:w-full md:rounded-2xl">
   ${
     isNew
       ? `<span class="absolute left-3 top-3 z-10 md:hidden bidora-badge-mobile">New</span>
@@ -105,9 +105,10 @@ export function renderProductCard(listing: listing): string {
   </span>
 </button>
 
-  <img src="${image}" alt="${altImage}" class="h-full w-full object-contain p-4" />
+<div class="flex h-full w-full items-center justify-center p-4">
+  <img src="${image}" alt="${altImage}" class="max-h-full max-w-full rounded-2xl object-contain" />
   </div>
-
+</div>
 
   <div class="flex flex-1 flex-col p-4 md:p-5">
   <h3 class="text-lg font-bold leading-tight md:text-xl">${listing.title}</h3>

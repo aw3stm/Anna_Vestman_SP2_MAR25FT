@@ -13,9 +13,6 @@ export function renderCreateListing(existingListing?: listing): string {
 
   return `
     <main class="relative flex-1 overflow-hidden bg-styling text-text">
-
-      <!-- Background decoration -->
-
       <div
         class="bidora-glow-orange pointer-events-none absolute -left-32 top-20 h-72 w-72"
       ></div>
@@ -25,15 +22,10 @@ export function renderCreateListing(existingListing?: listing): string {
       ></div>
 
       <section class="relative z-10 mx-auto max-w-5xl px-6 py-10 md:px-8 md:py-14">
-
-        <!-- Page header -->
-
         <div class="mb-8 md:mb-10">
-
           <div class="flex items-start justify-between gap-6">
 
             <div>
-
               <p
                 class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-orange-accent"
               >
@@ -44,14 +36,13 @@ export function renderCreateListing(existingListing?: listing): string {
                 ${isEditMode ? 'Edit listing' : 'Create listing'}
               </h1>
 
-              <p class="mt-3 max-w-xl text-base leading-6 text-text/70 md:text-lg">
+              <h2 class="mt-3 max-w-xl text-base leading-6 text-text/70 md:text-lg">
                 ${
                   isEditMode
                     ? 'Update your listing and keep it looking its best.'
                     : "Turn something you love into someone else's next find."
                 }
-              </p>
-
+              </h2>
             </div>
 
             <div
@@ -61,12 +52,8 @@ export function renderCreateListing(existingListing?: listing): string {
                 ${isEditMode ? 'edit' : 'add'}
               </span>
             </div>
-
           </div>
-
         </div>
-
-        <!-- Form card -->
 
         <div
           class="rounded-3xl bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.10)] md:p-10"
@@ -74,10 +61,7 @@ export function renderCreateListing(existingListing?: listing): string {
 
           <form id="create-listing-form" class="space-y-7">
 
-            <!-- Title -->
-
             <div>
-
               <label for="listing-title" class="bidora-label">
                 Title
               </label>
@@ -94,11 +78,8 @@ export function renderCreateListing(existingListing?: listing): string {
               />
 
             </div>
-
-            <!-- Description -->
-
+          
             <div>
-
               <label for="listing-description" class="bidora-label">
                 Description
               </label>
@@ -109,19 +90,16 @@ export function renderCreateListing(existingListing?: listing): string {
                 required
                 rows="6"
                 placeholder="Describe your item"
-                class="bidora-input resize-y"
+                class="bidora-input resize-none"
               >${existingListing?.description?.trim() ?? ''}</textarea>
 
             </div>
 
-            <!-- Category + Deadline -->
 
             <div class="grid gap-7 md:grid-cols-2">
 
-              <!-- Category -->
 
               <div>
-
                 <label for="listing-category" class="bidora-label">
                   Category
                 </label>
@@ -179,8 +157,6 @@ export function renderCreateListing(existingListing?: listing): string {
 
               </div>
 
-              <!-- Deadline -->
-
               <div>
 
                 <label for="listing-deadline" class="bidora-label">
@@ -197,18 +173,15 @@ export function renderCreateListing(existingListing?: listing): string {
                 />
 
               </div>
-
             </div>
-
-            <!-- Images -->
 
             <div>
 
               <div class="mb-3 flex items-center justify-between gap-4">
 
-                <label class="bidora-label mb-0">
+                <span class="bidora-label mb-0">
                   Images
-                </label>
+                </span>
 
                 <span class="text-xs text-text/50">
                   Add at least one image
