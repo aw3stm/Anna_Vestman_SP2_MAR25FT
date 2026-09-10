@@ -27,7 +27,7 @@ export function renderCreateListing(existingListing?: listing): string {
 
             <div>
               <p
-                class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-orange-accent"
+                class="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-orange-text"
               >
                 ${isEditMode ? 'Keep the bidding going' : 'Start the bidding'}
               </p>
@@ -183,7 +183,7 @@ export function renderCreateListing(existingListing?: listing): string {
                   Images
                 </span>
 
-                <span class="text-xs text-text/50">
+                <span class="text-xs text-text/80">
                   Add at least one image
                 </span>
 
@@ -211,7 +211,7 @@ export function renderCreateListing(existingListing?: listing): string {
                                     ? `
                                       <button
                                         type="button"
-                                        class="remove-image cursor-pointer text-sm font-medium text-delete-btn hover:underline"
+                                        class="remove-image cursor-pointer text-sm font-medium text-orange-text hover:underline"
                                       >
                                         Remove
                                       </button>
@@ -309,7 +309,7 @@ export function renderCreateListing(existingListing?: listing): string {
               <button
                 type="button"
                 id="add-image-btn"
-                class="mt-4 flex cursor-pointer items-center gap-1 text-sm font-semibold text-orange-accent"
+                class="mt-4 flex cursor-pointer items-center gap-1 text-sm font-semibold text-orange-text"
               >
                 <span class="material-symbols-outlined text-lg">
                   add
@@ -362,28 +362,17 @@ export function initCreateListing(): void {
   const hash = window.location.hash.replace('#/', '');
   const [path, queryString] = hash.split('?');
   const params = new URLSearchParams(queryString);
-
   const listingId = params.get('id');
   const isEditMode = path === 'edit-listing';
-
   const form = document.querySelector<HTMLFormElement>('#create-listing-form');
-
   const titleInput = document.querySelector<HTMLInputElement>('#listing-title');
-
   const descriptionInput = document.querySelector<HTMLTextAreaElement>('#listing-description');
-
   const categoryInput = document.querySelector<HTMLSelectElement>('#listing-category');
-
   const deadlineInput = document.querySelector<HTMLInputElement>('#listing-deadline');
-
   const imageFields = document.querySelector<HTMLDivElement>('#image-fields');
-
   const addImageButton = document.querySelector<HTMLButtonElement>('#add-image-btn');
-
   const errorMessage = document.querySelector<HTMLParagraphElement>('#create-listing-error');
-
   const successMessage = document.querySelector<HTMLParagraphElement>('#create-listing-success');
-
   const submitButton = document.querySelector<HTMLButtonElement>('#create-listing-btn');
 
   if (

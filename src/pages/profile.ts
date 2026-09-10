@@ -34,8 +34,6 @@ export async function renderProfile(): Promise<string> {
         </div>
 
         <div class="relative -mt-12 rounded-2xl px-6 pb-6 pt-16 shadow-sm">
-
-          <!-- Avatar -->
           <div class="absolute -top-8 left-6">
             ${
               avatar
@@ -54,8 +52,8 @@ export async function renderProfile(): Promise<string> {
                 ${profile.name}
               </h1>
 
-              <div class="mt-1 flex items-center gap-1 text-sm text-text/60">
-                <span class="material-symbols-outlined text-base text-orange-accent">
+              <div class="mt-1 flex items-center gap-1 text-sm text-text/80">
+                <span class="mb-1.5 material-symbols-outlined text-base text-orange-text">
                   star
                 </span>
                 <span>5</span>
@@ -80,7 +78,7 @@ export async function renderProfile(): Promise<string> {
             </h2>
           </div>
 
-          <p class="whitespace-pre-line mt text-sm md:text-base leading-relaxed text-text/80">
+          <p class="whitespace-pre-line mt text-sm font-regular md:text-base leading-relaxed text-text/90">
             ${profile.bio || 'No bio added yet.'}
           </p>
         </section>

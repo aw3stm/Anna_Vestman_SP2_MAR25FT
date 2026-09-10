@@ -46,7 +46,7 @@ export function renderHowItWorks(): string {
 
     <div class="relative z-10 mx-auto max-w-6xl">
     <div class="mx-auto max-w-2xl text-center">
-    <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-orange-accent md:text-lg">
+    <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-orange-text md:text-lg">
     How it works</p>
     <h1 class="text-2xl font-bold leading-tight md:text-4xl">
     Buy. Sell. Discover.</h1>
@@ -90,7 +90,7 @@ export function renderHowItWorks(): string {
         ${step.title}
         </h2>
 
-        <p class="mt-2 max-w-sm text-sm leading-6 text-text/70 md:text-base">
+        <p class="mt-2 max-w-sm text-sm leading-6 text-text md:text-base">
         ${step.text}
         </p>
         </article>

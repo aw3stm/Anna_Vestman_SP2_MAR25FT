@@ -30,7 +30,7 @@ export function renderAuthLayout({ formContent, topLink }: authLayoutProps): str
       <h1 class="absolute left-10 top-20 text-4xl font-bold leading-tight text-text">
         Bid.
         <span class="block">Discover.</span>
-        <span class="block text-orange-accent">Win.</span>
+        <span class="block text-orange-text">Win.</span>
       </h1>
     </div>
 

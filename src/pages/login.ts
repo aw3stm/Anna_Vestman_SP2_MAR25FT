@@ -5,7 +5,7 @@ export function renderLogin(): string {
   return renderAuthLayout({
     topLink: `
         <span class="text-base text-text">Don't have an account?
-        <a href="#/register" class="text-orange-accent hover:underline">Sign up</a></span>
+        <a href="#/register" class="text-orange-text font-semibold underline underline-offset-2">Sign up</a></span>
           `,
     formContent: `
           <section class="w-full max-w-md rounded-2xl bg-white p-8 shadow-[0_4px_20px_rgba(0,0,0,0.12)]">
@@ -40,12 +40,9 @@ export function renderLogin(): string {
           <input type="password" id="password" name="password" autocomplete="current-password" required class="bidora-input" />
           </div>
 
-          <div class="text-right">
-          <p class="cursor-pointer text-sm text-orange-accent hover:underline">Forgot password?</p></div>
-
           <button type="submit" class="bidora-button w-3xs mx-auto block px-6 py-3 hover:bg-hover-btn">Sign in</button>
 
-          <a href="#/"class="mt-5 block text-center text-sm text-orange-accent hover:underline">
+          <a href="#/"class="mt-5 block text-center text-sm text-orange-text hover:underline">
           Continue without signing in
           </a>
 

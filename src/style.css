@@ -72,7 +72,7 @@ button {
 
 .peer:hover + svg .how-it-works-arrow {
   opacity: 1;
-  animation: draw-arrow 600ms ease-out forwards;
+  animation: draw-arrow 400ms ease-out forwards;
 }
 
 @keyframes draw-arrow {
@@ -92,6 +92,7 @@ button {
   --font-h1: 'noto sans lao', sans-serif;
   --color-bg: #ffffff;
   --color-orange-accent: #cb471a;
+  --color-orange-text: #a83b16;
   --color-green-accent: #5f6b5b;
   --color-styling: #f2ebe2;
   --color-text: #545454;
@@ -177,7 +178,7 @@ button {
   text-align: center;
   padding: 0 1rem;
   border-radius: 0.5rem;
-  background-color: var(--color-orange-accent);
+  background-color: var(--color-orange-text);
   color: white;
   font-size: 0.7rem;
   font-weight: 700;
@@ -194,7 +195,7 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
-  background-color: var(--color-orange-accent);
+  background-color: var(--color-orange-text);
   font-size: 0.75rem;
   font-weight: 600;
   color: white;

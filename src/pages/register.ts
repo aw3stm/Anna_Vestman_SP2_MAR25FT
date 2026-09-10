@@ -6,7 +6,7 @@ export function renderRegister(): string {
     topLink: `
       <span class="text-base text-text">
         Already have an account?
-        <a href="#/login" class="text-orange-accent hover:underline">
+        <a href="#/login" class="text-orange-text font-semibold underline underline-offset-2">
           Sign in
         </a>
       </span>

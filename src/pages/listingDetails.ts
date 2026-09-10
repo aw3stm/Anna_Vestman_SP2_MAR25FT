@@ -48,7 +48,7 @@ export function renderListingDetails(product: listing): string {
     
     <button type="button"
     id="back-btn"
-    class="mb-6 flex cursor-pointer items-center gap-1 text-sm text-orange-accent">
+    class="mb-6 flex cursor-pointer items-center gap-1 text-sm text-orange-text">
     <span class="material-symbols-outlined">
     arrow_back
     </span>
@@ -96,7 +96,7 @@ export function renderListingDetails(product: listing): string {
 
 
     <div class="mt-8 md:mt-4">
-    <p class="text-sm text-text/70">
+    <p class="text-sm text-text">
     ${category}</p>
     
     <h1 class="mt-1 text-2xl font-bold md:text-4xl">
@@ -106,7 +106,7 @@ export function renderListingDetails(product: listing): string {
       product.seller
         ? `
         <div class="mt-6">
-        <p class="text-sm text-text/60">Seller</p>
+        <p class="text-sm text-text">Seller</p>
         
         <div class="mt-2 flex items-center gap-3">
         ${
@@ -120,7 +120,7 @@ export function renderListingDetails(product: listing): string {
         </div>
         `
         }
-        <span class="font-medium">${product.seller.name}</span>
+        <span class="font-bold">${product.seller.name}</span>
         </div>
         </div>
         `
@@ -166,7 +166,7 @@ export function renderListingDetails(product: listing): string {
     </div>
     `
         : `
-    <p class="mt-3 text-sm text-text/60">No bids yet.</p>`
+    <p class="mt-3 text-sm text-text">No bids yet.</p>`
     }
     </div>
     </div>
@@ -176,13 +176,13 @@ export function renderListingDetails(product: listing): string {
       <div class="mt-8">
         <h2 class="text-lg font-semibold">Place your bid</h2>
 
-       <form id="bid-form" class="mt-3">
+  <form id="bid-form" class="mt-3">
   <label for="bid-amount" class="sr-only">
     Bid amount
   </label>
 
   <div class="flex items-center gap-3">
-   <div class="relative flex-1">
+   <div class="relative flex-1 ">
   <input
     type="number"
     id="bid-amount"
@@ -190,7 +190,7 @@ export function renderListingDetails(product: listing): string {
     min="${currentBid + 1}"
     placeholder="Enter your bid"
     required
-    class="bidora-number-input h-12 w-full rounded-lg border border-gray-300 px-4 pr-24 outline-none bidora-input"
+    class="bidora-number-input h-12 w-full text-text rounded-lg border border-gray-300 px-4 pr-24 outline-none bidora-input"
   />
 
   <div
@@ -200,7 +200,7 @@ export function renderListingDetails(product: listing): string {
       type="button"
       id="bid-increase"
       aria-label="Increase bid"
-      class="flex h-6 w-6 cursor-pointer items-center justify-center text-text/60 transition-colors hover:bg-gray-200 hover:text-text"
+      class="flex h-6 w-6 cursor-pointer items-center justify-center text-text transition-colors hover:bg-gray-200 hover:text-text"
     >
       <span class="material-symbols-outlined text-base leading-none">
         keyboard_arrow_up
@@ -211,7 +211,7 @@ export function renderListingDetails(product: listing): string {
       type="button"
       id="bid-decrease"
       aria-label="Decrease bid"
-      class="flex h-6 w-6 cursor-pointer items-center justify-center text-text/60 transition-colors hover:bg-gray-200 hover:text-text"
+      class="flex h-6 w-6 cursor-pointer items-center justify-center text-text transition-colors hover:bg-gray-200 hover:text-text"
     >
       <span class="material-symbols-outlined text-base leading-none">
         keyboard_arrow_down
@@ -220,7 +220,7 @@ export function renderListingDetails(product: listing): string {
   </div>
 
   <span
-    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text/60"
+    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-text"
   >
     credits
   </span>

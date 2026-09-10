@@ -106,7 +106,9 @@ export function renderProductCard(listing: listing): string {
 </button>
 
 <div class="flex h-full w-full items-center justify-center p-4">
-  <img src="${image}" alt="${altImage}" class="max-h-full max-w-full rounded-2xl object-contain" />
+  <img src="${image}" 
+  alt="${altImage}" 
+  class="max-h-full max-w-full rounded-2xl object-contain">
   </div>
 </div>
 

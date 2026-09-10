@@ -29,7 +29,7 @@ export function renderFooter(): string {
 
               <p class="mt-1 text-lg">
                 Bid. Discover.
-                <span class="text-orange-accent font-bold">Win.</span>
+                <span class="text-orange-text font-bold">Win.</span>
               </p>
 
               <div class="mt-3 flex gap-3 pl-6">
