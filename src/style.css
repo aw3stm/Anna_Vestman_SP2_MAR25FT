@@ -36,6 +36,22 @@ button {
   cursor: pointer;
 }
 
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-orange-accent);
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 200ms ease;
+}
+.nav-link:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
 .bidora-number-input::-webkit-inner-spin-button,
 .bidora-number-input::-webkit-outer-spin-button {
   appearance: none;
@@ -44,6 +60,31 @@ button {
 
 .bidora-number-input {
   appearance: textfield;
+}
+
+.how-it-works-arrow {
+  stroke: var(--color-orange-accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+}
+
+.peer:hover + svg .how-it-works-arrow {
+  opacity: 1;
+  animation: draw-arrow 600ms ease-out forwards;
+}
+
+@keyframes draw-arrow {
+  from {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+  }
+
+  to {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 0;
+  }
 }
 
 @theme {

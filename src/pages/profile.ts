@@ -20,8 +20,6 @@ export async function renderProfile(): Promise<string> {
   return `
     <main class="flex-1 bg-white text-text">
       <section class="mx-auto max-w-6xl px-6 py-8 md:px-8 md:py-12">
-
-        <!-- Banner -->
         <div class="relative h-48 overflow-hidden rounded-2xl bg-gray-200 md:h-64">
           ${
             banner
@@ -35,7 +33,6 @@ export async function renderProfile(): Promise<string> {
 
         </div>
 
-        <!-- Profile info -->
         <div class="relative -mt-12 rounded-2xl px-6 pb-6 pt-16 shadow-sm">
 
           <!-- Avatar -->
@@ -52,7 +49,6 @@ export async function renderProfile(): Promise<string> {
           </div>
 
           <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-
             <div>
               <h1 class="text-2xl font-bold">
                 ${profile.name}
@@ -77,14 +73,14 @@ export async function renderProfile(): Promise<string> {
             </button>
           </div>
 
-            <section class="mt-8 max-w-xl rounded-2xl bg-styling/50 p-6 shadow-md">
+          <section class="mt-8 max-w-xl rounded-2xl bg-styling/50 p-6 shadow-md">
           <div class="flex items-center justify-between">
             <h2 class="text-xl font-bold">
               About me
             </h2>
           </div>
 
-          <p class="whitespace-pre-line mt text-sm md:text-base leading-relaxed text-text/70">
+          <p class="whitespace-pre-line mt text-sm md:text-base leading-relaxed text-text/80">
             ${profile.bio || 'No bio added yet.'}
           </p>
         </section>
@@ -138,10 +134,7 @@ export async function renderProfile(): Promise<string> {
   </div>
 
   <div id="profile-listings" class="mt-5 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    ${listings
-      .slice(0, 4)
-      .map((listing) => renderProfileProdCard(listing, true))
-      .join('')}
+    ${listings.map((listing) => renderProfileProdCard(listing, true)).join('')}
   </div>
     </section>
   </section>

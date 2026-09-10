@@ -1,5 +1,5 @@
 import { getListings, type ListingSort } from '../api/listings';
-import retroJacket from '../assets/Retro_Jacket.png';
+import retroJacket from '../assets/blackJacket.jpg';
 import { renderProductCard } from '../components/productCard';
 import type { listing } from '../components/productCard';
 import scrollDown from '../assets/bouncing-circle.svg';
@@ -138,7 +138,6 @@ export async function renderHome(): Promise<string> {
         </div>
       </section>
 
-      <!-- Hero -->
       <section id="hero-section" class="relative overflow-hidden bg-styling">
         <div class="mx-auto max-w-6xl px-6 md:px-8">
         <div
@@ -152,11 +151,9 @@ export async function renderHome(): Promise<string> {
   <div class="relative z-10 mx-auto max-w-6xl px-6 md:px-8">
           <div class="relative flex min-h-95 flex-col items-center justify-center py-10 md:min-h-100 md:flex-row">
 
-            <!-- Text + jacket -->
             <div
               class="flex flex-col items-center gap-2 md:flex-row md:gap-8">
 
-              <!-- Text -->
               <div class="max-w-md text-center md:text-left">
 
                 <p class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-orange-accent">
@@ -177,17 +174,18 @@ export async function renderHome(): Promise<string> {
 
               </div>
 
-              <!-- Jacket -->
               <div class="relative shrink-0">
 
-               <span class="bidora-badge absolute -right-8 top-3 z-10 h-10 min-w-24 shadow-md md:right-0 md:top-6">
+               <span class="bidora-badge absolute -right-6 top-3 z-10 h-10 min-w-24 shadow-md md:-right-8 md:top-2">
                 <p>New listing</p>
               </span>
 
+              <div class="flex h-48 w-48 items-center py-4 px-2 justify-center md:h-50 md:w-50 bg-white rounded-2xl shadow-md border border-green-accent/30">
                 <img
                   src="${retroJacket}"
                   alt="Vintage leather jacket"
-                  class="h-44 w-44 object-contain sm:h-52 sm:w-52 md:h-60 md:w-60"/>
+                  class="max-h-full max-w-full object-contain rounded-xl"/>
+                  </div>
               </div>
             </div>
 

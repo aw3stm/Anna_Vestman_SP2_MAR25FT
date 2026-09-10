@@ -11,14 +11,11 @@ import googleIcon from '../assets/payment_icons/google pay.svg';
 export function renderFooter(): string {
   return `
     <footer class="bg-styling text-text">
-
-      <!-- ==================== DESKTOP ==================== -->
-      <div class="hidden md:block">
+      <div class="hidden md:block border-t border-green-accent/30">
         <div class="mx-auto max-w-7xl px-12 py-12">
 
           <div class="grid grid-cols-[minmax(0,1.6fr)_repeat(4,minmax(0,1fr))_minmax(0,1.5fr)] gap-4">
 
-            <!-- Brand -->
             <div class="w-fit">
               <img
                 src="${bidoraLogo}"
@@ -35,7 +32,6 @@ export function renderFooter(): string {
                 <span class="text-orange-accent font-bold">Win.</span>
               </p>
 
-              <!-- Social icons -->
               <div class="mt-3 flex gap-3 pl-6">
                 <img
                   src="${instaIcon}"
@@ -57,7 +53,6 @@ export function renderFooter(): string {
               </div>
             </div>
 
-            <!-- Marketplace -->
             <div>
               <h3 class="font-bold">
                 Marketplace
@@ -71,7 +66,7 @@ export function renderFooter(): string {
               </ul>
             </div>
 
-            <!-- How it works -->
+
             <div>
               <h3 class="font-bold">
                 How it works
@@ -85,7 +80,7 @@ export function renderFooter(): string {
               </ul>
             </div>
 
-            <!-- About Bidora -->
+
             <div>
               <h3 class="font-bold">
                 About Bidora
@@ -99,7 +94,7 @@ export function renderFooter(): string {
               </ul>
             </div>
 
-            <!-- Legal -->
+
             <div>
               <h3 class="font-bold">
                 Legal
@@ -113,7 +108,6 @@ export function renderFooter(): string {
               </ul>
             </div>
 
-            <!-- Newsletter -->
             <div class="min-w-0 text-center">
               <div>
                 <h3 class="font-bold">
@@ -134,7 +128,7 @@ export function renderFooter(): string {
 
                   <button
                     type="button"
-                    class="bidora-button mt-2 px-2 py-2 hover:bg-hover-btn"
+                    class="bidora-button mx-auto mt-2 px-3 py-2 hover:bg-hover-btn"
                   >
                     Subscribe
                   </button>
@@ -147,10 +141,11 @@ export function renderFooter(): string {
       </div>
 
 
-      <!-- ==================== MOBILE ==================== -->
+      <!-- MOBILE -->
+
       <div class="md:hidden">        
-        <div class="px-10 py-10">
-          <div class="divide-y divide-gray-300">
+        <div class="px-10 py-10 border-t border-green-accent/30">
+          <div class="divide-y divide-primary-green/20">
 
             <div>
             <button

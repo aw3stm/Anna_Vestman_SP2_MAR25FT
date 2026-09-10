@@ -40,7 +40,7 @@ const steps = [
 export function renderHowItWorks(): string {
   return `
     <main class="flex-1 bg-styling text-text">
-    <section class="relative overflow-hidden px-6 py-14 md:px-12 md:py-20">
+    <section class="relative mb-6 overflow-hidden px-6 py-6 md:px-12 md:py-20">
     <div class="absolute bidora-glow-orange -right-40 top-10 h-96 w-96"></div>
     <div class="absolute bidora-glow-green -left-40 top-96 h-96 w-96"></div>
 
@@ -52,20 +52,36 @@ export function renderHowItWorks(): string {
     Buy. Sell. Discover.</h1>
 
     <p class="mx-auto mt-5 max-w-xl text-base leading-7 text-text/70 md:text-lg">
-    Getting started with Bidora os simple. Follow these five steps and you're ready to buy and sell</p>
+    Getting started with Bidora is simple. Follow these five steps and you're ready to buy and sell.</p>
     </div>
 
-    <div class="mt-16 grid gap-14 md:grid-cols-2 md:gap-x-12 md:gap-y-20 lg:grid-cols-3">
+    <div class="mt-16 mb-6 grid gap-14 md:grid-cols-2 md:gap-x-12 md:gap-y-20 lg:grid-cols-3">
     
     ${steps
       .map(
         (step) => `
-        <article class="flex flex-col items-center text-center">
+        <article class="flex flex-col items-center text-center cursor-pointer">
         <div class="relative flex h-60 w-full items-center justify-center md:h-72">
-        <span class="absolute left-1/2 top-2 z-10 flex h-12 w-12 -translate-x-1/2 items-center rounded-full justify-center bg-primary-green text-base font-bold text-white shadow-md">
+      <span
+        class="peer absolute left-1/2 top-2 z-20 flex h-12 w-12 -translate-x-1/2 items-center justify-center rounded-full bg-primary-green text-base font-bold text-white shadow-md">
         ${step.number}
         </span>
 
+        ${
+          step.number === '1' || step.number === '2' || step.number === '4'
+            ? `
+        <svg
+        class="absolute left-full top-8 z-20 ml-2 hidden h-8 w-28 overflow-visible lg:block"
+        viewBox="0 0 120 30"
+        fill="none"
+        aria-hidden="true">
+        <path
+            d="M-20 15 H100 M90 5 L100 15 L90 25"
+            class="how-it-works-arrow">
+        </svg>
+            `
+            : ''
+        }      
         <img src="${step.image}" 
         alt=""
         class="h-48 w-48 md:h-52 md:w-52 object-contain">
@@ -83,7 +99,7 @@ export function renderHowItWorks(): string {
       .join('')}
     </div>
     </div>
-    </section>
-    </main>
+   </section>
+</main>
     `;
 }

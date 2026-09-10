@@ -31,8 +31,6 @@ export function renderNavbar({
   return `
     <header class="relative bg-white">
       <nav class="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 md:px-12">
-
-        <!-- Mobile menu button + logo -->
         <div class="flex items-center gap-4">
           <button
             type="button"
@@ -52,12 +50,11 @@ export function renderNavbar({
           </a>
         </div>
 
-        <!-- Desktop navbar -->
-        <div class="hidden items-center gap-12 md:flex">
 
+        <div class="hidden items-center gap-12 md:flex">
           <a
             href="#/"
-            class="text-lg font-medium ${getDeskLinkClass('')}"
+            class="nav-link relative py-2 text-lg font-medium transition-colors duration-200 hover:text-orange-accent ${getDeskLinkClass('')}"
           >
             Listings
           </a>
@@ -67,7 +64,7 @@ export function renderNavbar({
               ? `
                 <a
                   href="#/create-listing"
-                  class="text-lg font-medium ${getDeskLinkClass('create-listing')}"
+                  class="nav-link relative py-2 text-lg font-medium transition-colors duration-200 hover:text-orange-accent ${getDeskLinkClass('create-listing')}"
                 >
                   Create Listing
                 </a>
@@ -77,7 +74,7 @@ export function renderNavbar({
 
           <a
             href="#/how-it-works"
-            class="text-lg font-medium ${getDeskLinkClass('how-it-works')}"
+            class="nav-link relative py-2 text-lg font-medium transition-colors duration-200 hover:text-orange-accent ${getDeskLinkClass('how-it-works')}"
           >
             How it works
           </a>
@@ -96,7 +93,6 @@ export function renderNavbar({
           }
         </div>
 
-        <!-- User section -->
         ${
           isLoggedIn
             ? `
@@ -151,7 +147,6 @@ export function renderNavbar({
               </div>
             `
             : `
-              <!-- Mobile sign in -->
               <a
                 href="#/login"
                 class="text-lg font-semibold text-gray-600 md:hidden"
@@ -160,20 +155,19 @@ export function renderNavbar({
               </a>
             `
         }
-
       </nav>
+
+
 
       <!-- Mobile menu -->
       <div
         id="mobile-menu"
-        class="absolute left-0 top-full z-50 hidden w-full bg-white px-6 py-6 shadow-md md:hidden"
-      >
+        class="absolute left-0 top-full z-50 hidden w-full bg-white px-6 py-6 shadow-md md:hidden">
         <nav class="flex flex-col gap-6">
 
           <a
             href="#/"
-            class="text-lg font-semibold ${getMobLinkClass('')}"
-          >
+            class="text-lg font-semibold ${getMobLinkClass('')}">
             Listings
           </a>
 

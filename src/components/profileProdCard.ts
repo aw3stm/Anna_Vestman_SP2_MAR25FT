@@ -39,7 +39,7 @@ export function renderProfileProdCard(listing: listing, showActions = false): st
       class="profile-product-card cursor-pointer overflow-hidden rounded-2xl bg-white shadow-md"
       data-id="${listing.id}"
     >
-      <div class="relative h-32 bg-styling">
+      <div class="relative h-32 bg-styling rounded-xl">
 
         <span
           class="absolute left-3 top-4 z-10 rounded-lg bg-primary-green px-3.5 py-2 text-xs font-semibold text-white shadow-sm"
@@ -57,11 +57,13 @@ export function renderProfileProdCard(listing: listing, showActions = false): st
           </span>
         </button>
 
+        <div class="flex h-full w-full items-center justify-center p-2"> 
         <img
           src="${image}"
           alt="${altImg}"
-          class="h-full w-full object-contain"
+          class="max-h-full max-w-full rounded-xl object-contain"
         />
+        </div> 
       </div>
 
       <div class="px-3 py-3">
