@@ -53,47 +53,51 @@ export function renderLogin(): string {
 }
 
 export function initLogin(): void {
-  const form = document.querySelector<HTMLFormElement>('#login-form');
-  const emailInput = document.querySelector<HTMLInputElement>('#email');
-  const passwordInput = document.querySelector<HTMLInputElement>('#password');
-  const errorMessage = document.querySelector<HTMLParagraphElement>('#login-error');
+  const forms = document.querySelectorAll<HTMLFormElement>('#login-form');
 
-  if (!form || !emailInput || !passwordInput || !errorMessage) {
-    return;
-  }
+  forms.forEach((form) => {
+    const emailInput = form.querySelector<HTMLInputElement>('#email');
+    const passwordInput = form.querySelector<HTMLInputElement>('#password');
+    const errorMessage = form.querySelector<HTMLParagraphElement>('#login-error');
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-    errorMessage.classList.add('hidden');
-
-    try {
-      const user = await loginUser(email, password);
-
-      localStorage.setItem('token', user.accessToken);
-
-      localStorage.setItem(
-        'profile',
-        JSON.stringify({
-          name: user.name,
-          email: user.email,
-        }),
-      );
-
-      if (!getApiKey()) {
-        await createApiKey();
-      }
-      const profile = await getCurrentProfile();
-      localStorage.setItem('profile', JSON.stringify(profile));
-      window.location.hash = '#/';
-    } catch (error) {
-      errorMessage.textContent =
-        error instanceof Error ? error.message : 'Login failed. Please try again.';
-
-      errorMessage.classList.remove('hidden');
+    if (!emailInput || !passwordInput || !errorMessage) {
+      return;
     }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      errorMessage.classList.add('hidden');
+
+      try {
+        const user = await loginUser(email, password);
+
+        localStorage.setItem('token', user.accessToken);
+
+        localStorage.setItem(
+          'profile',
+          JSON.stringify({
+            name: user.name,
+            email: user.email,
+          }),
+        );
+
+        if (!getApiKey()) {
+          await createApiKey();
+        }
+
+        const profile = await getCurrentProfile();
+        localStorage.setItem('profile', JSON.stringify(profile));
+        window.location.hash = '#/';
+      } catch (error) {
+        errorMessage.textContent =
+          error instanceof Error ? error.message : 'Login failed. Please try again.';
+
+        errorMessage.classList.remove('hidden');
+      }
+    });
   });
 }

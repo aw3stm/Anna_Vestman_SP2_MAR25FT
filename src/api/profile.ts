@@ -37,7 +37,7 @@ export async function myListings(): Promise<listing[]> {
     throw new Error('Authentication information is missing');
   }
   const response = await fetch(
-    `${API_URL}/auction/profiles/${encodeURIComponent(profile.name)}/listings`,
+    `${API_URL}/auction/profiles/${encodeURIComponent(profile.name)}/listings?_bids=true`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

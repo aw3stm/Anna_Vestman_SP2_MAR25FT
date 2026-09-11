@@ -69,14 +69,14 @@ export function renderAuthLayout({ formContent, topLink }: authLayoutProps): str
         <span class="absolute top-1.75 h-1.25 w-1.25 rotate-180 bg-orange-accent/70"></span>
     </div>
 
-    <! ==== Headphones ====>
-     <div class="absolute z-10 right-[40%] top-[25%] rotate-300">
+  
+     <div class="absolute z-10 right-[40%] top-[23%] rotate-300">
         <span class="absolute h-1.25 w-1.25 rotate-180 bg-orange-accent/70"></span>
         <span class="absolute left-1.75 h-1.25 w-1.25 rotate-180 bg-orange-accent/70"></span>
         <span class="absolute top-1.75 h-1.25 w-1.25 rotate-180 bg-orange-accent/70"></span>
     </div>
     
-    <! ==== Bag ==== >
+    
      <div class="absolute z-10 right-[45%] top-[13%] rotate-120">
         <span class="absolute h-1.25 w-1.25 rotate-180 bg-orange-accent/70"></span>
         <span class="absolute left-1.75 h-1.25 w-1.25 rotate-180 bg-orange-accent/70"></span>

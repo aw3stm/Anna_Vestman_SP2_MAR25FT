@@ -320,7 +320,6 @@ export function initProfile(): void {
 
   listingsTab.addEventListener('click', () => {
     listingsContainer.innerHTML = listings
-      .slice(0, 4)
       .map((listing) => renderProfileProdCard(listing, true))
       .join('');
 
@@ -333,7 +332,6 @@ export function initProfile(): void {
       .filter((listing): listing is NonNullable<typeof listing> => !!listing);
 
     listingsContainer.innerHTML = bidListings
-      .slice(0, 4)
       .map((listing) => renderProfileProdCard(listing))
       .join('');
 
