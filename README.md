@@ -274,6 +274,10 @@ The production build is generated in the `dist` directory.
 
 - The project uses the functionality available through the Noroff Auction House API.
 
+### Documentation
+
+Code documentation: Key functions are documented using JSDoc, including API operations, bidding functionality and listing utilities.
+
 ## Author
 
 ### Anna Vestman

@@ -17,6 +17,13 @@ interface ListingResponse {
 
 export type ListingSort = 'newest' | 'oldest' | 'ending-soon' | 'ending-last';
 
+/**
+ * Fetches active auction listings from the Noroff API.
+ *
+ * @param sortBy - Determines how the listings are sorted.
+ * @returns A promise containing the active auction listings.
+ * @throws {Error} If the listings cannot be fetched.
+ */
 export async function getListings(sortBy: ListingSort = 'newest'): Promise<listing[]> {
   let sort = 'created';
   let sortOrder = 'desc';
@@ -58,6 +65,14 @@ export async function getListingById(id: string): Promise<listing> {
   return data.data;
 }
 
+/**
+ * Places a bid on an auction listing.
+ *
+ * @param id - The ID of the listing to bid on.
+ * @param amount - The number of credits to bid.
+ * @returns A promise containing the updated listing.
+ * @throws {Error} If authentication information is missing or the bid cannot be placed.
+ */
 export async function placeBid(id: string, amount: number): Promise<listing> {
   const token = getToken();
   const apiKey = getApiKey();

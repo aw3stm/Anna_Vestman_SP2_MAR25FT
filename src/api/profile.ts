@@ -22,6 +22,12 @@ interface BidResponse {
   data: ProfileBid[];
 }
 
+/**
+ * Fetches the listings created by the currently authenticated user.
+ *
+ * @returns A promise containing the user's listings.
+ * @throws {Error} If authentication information is missing or the listings cannot be fetched.
+ */
 export async function myListings(): Promise<listing[]> {
   const token = getToken();
   const apiKey = getApiKey();
@@ -48,6 +54,12 @@ export async function myListings(): Promise<listing[]> {
   return data.data;
 }
 
+/**
+ * Fetches the bids placed by the currently authenticated user.
+ *
+ * @returns A promise containing the user's bids and associated listings.
+ * @throws {Error} If authentication information is missing or the bids cannot be fetched.
+ */
 export async function myBids(): Promise<ProfileBid[]> {
   const token = getToken();
   const apiKey = getApiKey();
